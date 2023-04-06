@@ -32,7 +32,7 @@ function NieuwSchaderapport() {
                         url +
                         '/full/max/0/default.jpg'
                     }
-                    alt="picture of selected"
+                    alt="selected painting"
                 />
             </div>
             <div className="w-full flex justify-center">
