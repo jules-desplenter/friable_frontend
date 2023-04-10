@@ -4,6 +4,7 @@ import ErrorPage from './views/errorpage'
 import Home from './views/Home'
 import BlobList from './views/BlobList'
 import NieuwSchaderapport from './views/NieuwSchaderapport'
+import SchadeRapportEditor from './views/SchadeRapportEditor'
 
 function App() {
     const router = createBrowserRouter([
@@ -22,22 +23,29 @@ function App() {
             element: <NieuwSchaderapport />,
             errorElement: <ErrorPage />,
         },
+        {
+            path: '/schaderapport/:objectid',
+            element: <SchadeRapportEditor />,
+            errorElement: <ErrorPage />,
+        },
     ])
 
     return (
         <div className="App">
-            <div className="flex justif-content justify-between items-center mx-6 mt-3 border-b-2 pb-2">
-                <a href="/" className="text-3xl text-gray-700 font-bold">
-                    <span className="text-greenCustom">FRIABLE</span> annotation
-                    tool
-                </a>
-                <div className="mr-2">
-                    <a
-                        href="/"
-                        className="text-underling cursor-pointer align-center"
-                    >
-                        Home
+            <div className="bg-white fixed w-full">
+                <div className="flex justif-content justify-between items-center mx-6 mt-3 border-b-2 pb-2">
+                    <a href="/" className="text-3xl text-gray-700 font-bold">
+                        <span className="text-greenCustom">FRIABLE</span>{' '}
+                        annotation tool
                     </a>
+                    <div className="mr-2">
+                        <a
+                            href="/"
+                            className="text-underling cursor-pointer align-center"
+                        >
+                            Home
+                        </a>
+                    </div>
                 </div>
             </div>
             <RouterProvider router={router} />

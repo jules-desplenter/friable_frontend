@@ -15,15 +15,27 @@ const DynamicForm = ({ fields, handleSubmit }) => {
                     <label className="text-start" htmlFor={field.name}>
                         {field.label}
                     </label>
-                    <input
-                        type={field.type}
-                        name={field.name}
-                        placeholder={field.name}
-                        id={field.name}
-                        value={formData[field.name] || ''}
-                        onChange={handleChange}
-                        className="bg-background border border-blackCustom pl-2 rounded text-blackCustom placeholder-gray-700"
-                    />
+                    {field.type === 'textBox' ? (
+                        <textarea
+                            type={field.type}
+                            name={field.name}
+                            placeholder={field.name}
+                            id={field.name}
+                            value={formData[field.name] || ''}
+                            onChange={handleChange}
+                            className="bg-background border border-blackCustom pl-2 rounded text-blackCustom placeholder-gray-700"
+                        />
+                    ) : (
+                        <input
+                            type={field.type}
+                            name={field.name}
+                            placeholder={field.name}
+                            id={field.name}
+                            value={formData[field.name] || ''}
+                            onChange={handleChange}
+                            className="bg-background border border-blackCustom pl-2 rounded text-blackCustom placeholder-gray-700"
+                        />
+                    )}
                 </div>
             ))}
             <button

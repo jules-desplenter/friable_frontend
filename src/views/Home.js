@@ -4,8 +4,11 @@ import { Icon } from 'react-icons-kit'
 import { androidArrowDropdown } from 'react-icons-kit/ionicons/androidArrowDropdown'
 import { ic_search } from 'react-icons-kit/md/ic_search'
 import Registratie from '../components/Registratie'
+import useGetManifest from '../hooks/useGetManifests'
 
 function Home() {
+    const manifest = useGetManifest()
+    console.log(manifest)
     return (
         <>
             <div className="w-full flex justify-center">
@@ -26,7 +29,10 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <a href="/bloblist" className="bg-greenCustom rounded-2xl fixed bottom-0 right-0 m-6">
+            <a
+                href="/bloblist"
+                className="bg-greenCustom rounded-2xl fixed bottom-0 right-0 m-6"
+            >
                 <p className="mx-4 my-1">Voeg rapport toe</p>
             </a>
         </>
