@@ -1,18 +1,16 @@
 import '../App.css'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import Mirador from 'mirador/dist/mirador.min.js'
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import AutomaticForm from '../components/AutomaticForm'
 import useUpdateRegistration from '../hooks/useUpdateRegistration'
 import useAddRegistration from '../hooks/useAddRegistration'
 import useGetRegistration from '../hooks/useGetRegistration'
+import MiradorViewer from '../components/MiradorViewer'
 
 function SchadeRapportEditor() {
-    const [clicked, setClicked] = useState(true)
     const { objectid } = useParams()
-    const myElement = useRef(null)
     const [Registratie, setRegistratie] = useState({
         id: objectid,
         name: null,
@@ -1672,40 +1670,6 @@ function SchadeRapportEditor() {
 
     const [page, setPage] = useState(0)
 
-    const containerStyle = {
-        width: '50%',
-        height: 'calc(100vh - 58px)',
-        position: 'fixed',
-        bottom: '0px',
-        right: '0px',
-    }
-
-    useEffect(() => {
-        Mirador.viewer({
-            id: 'app',
-            windows: [
-                {
-                    manifestId:
-                        'https://localhost:7148/api/Manifest/' +
-                        objectid +
-                        '/manifest.json',
-                    sideBarOpen: false,
-                },
-            ],
-        })
-        setTimeout(() => {
-            if (clicked) {
-                let blubber = document.getElementsByClassName(
-                    'MuiIconButton-label',
-                )
-                blubber.item(7)
-                    ? blubber.item(7).click()
-                    : console.log('not found')
-                setClicked(false)
-            }
-        }, 100)
-    }, [myElement, clicked, objectid])
-
     return (
         <>
             <div className="w-full flex flex-wrap">
@@ -1943,9 +1907,7 @@ function SchadeRapportEditor() {
                         </div>
                     </div>
                 </div>
-                <div style={containerStyle}>
-                    <div ref={myElement} id="app"></div>
-                </div>
+                <MiradorViewer id={objectid}></MiradorViewer>
             </div>
         </>
     )
