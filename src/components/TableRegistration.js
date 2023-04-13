@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { useTable, useSortBy, useGlobalFilter } from 'react-table'
 
-const TableBlob = ({ data }, props) => {
+const TableRegistration = ({ data }) => {
     const [filterValue, setFilterValue] = useState('')
 
     const columns = useMemo(
@@ -11,21 +11,20 @@ const TableBlob = ({ data }, props) => {
                 accessor: 'name',
             },
             {
-                Header: 'Painting',
-                accessor: 'uri',
-                Cell: ({ value }) => {
-                    return <img alt="painting" src={value} className="h-10" />
-                },
+                Header: 'Function',
+                accessor: 'function',
             },
             {
-                Header: 'Schaderapport maken',
-                accessor: 'name2',
+                Header: 'Reason',
+                accessor: 'reason',
+            },
+            {
+                Header: 'Schaderapport aanpassen',
+                accessor: 'id',
                 Cell: ({ value }) => {
                     return (
                         <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center">
-                            <a href={'/nieuwschade/' + value}>
-                                Schaderapport maken
-                            </a>
+                            <a href={'/schaderapport/' + value}>aanpassen</a>
                         </div>
                     )
                 },
@@ -128,4 +127,4 @@ const TableBlob = ({ data }, props) => {
     )
 }
 
-export default TableBlob
+export default TableRegistration

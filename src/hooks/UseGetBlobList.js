@@ -4,13 +4,21 @@ import axios from 'axios'
 const useGetBlobList = () => {
     const [post, setPost] = useState(null)
 
-    useEffect(() => {
+    const fetchBlobs = () => {
         axios.get('blob').then((response) => {
             setPost(response.data)
         })
+    }
+
+    const refresh = () => {
+        fetchBlobs()
+    }
+
+    useEffect(() => {
+        fetchBlobs()
     }, [])
 
-    return post
+    return { post, refresh }
 }
 
 export default useGetBlobList

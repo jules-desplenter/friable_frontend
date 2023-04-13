@@ -3,11 +3,13 @@ import React from 'react'
 import { Icon } from 'react-icons-kit'
 import { androidArrowDropdown } from 'react-icons-kit/ionicons/androidArrowDropdown'
 import { ic_search } from 'react-icons-kit/md/ic_search'
-import Registratie from '../components/Registratie'
 import useGetManifest from '../hooks/useGetManifests'
+import useGetListRegistration from '../hooks/useGetListRegistration'
+import TableRegistration from '../components/TableRegistration'
 
 function Home() {
     const manifest = useGetManifest()
+    const { element } = useGetListRegistration()
     console.log(manifest)
     return (
         <>
@@ -25,7 +27,13 @@ function Home() {
                         </div>
                     </div>
                     <div>
-                        <Registratie></Registratie>
+                        {element ? (
+                            <TableRegistration
+                                data={element}
+                            ></TableRegistration>
+                        ) : (
+                            <div>loading</div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -213,11 +213,22 @@ function SchadeRapportEditor() {
 
     // identification section
     const [checkedItemsSupport, setCheckedItemsSupport] = useState('')
+    const [checkedItemsSupportSetted, checkedItemsSupportSetSetted] =
+        useState(true)
 
     useEffect(() => {
-        if (checkedItemsSupport === '')
-            setCheckedItemsSupport(Registratie.identification.framed)
-    }, [Registratie.identification.framed, checkedItemsSupport])
+        if (checkedItemsSupportSetted) {
+            if (
+                Registratie.identification.framed !== '' &&
+                Registratie.identification.framed !== undefined &&
+                Registratie.identification.framed !== null
+            ) {
+                console.log('done')
+                setCheckedItemsSupport(Registratie.identification.framed)
+                checkedItemsSupportSetSetted(false)
+            }
+        }
+    }, [Registratie.identification.framed, checkedItemsSupportSetted])
 
     useEffect(() => {
         Registratie.identification.framed = checkedItemsSupport
@@ -237,6 +248,7 @@ function SchadeRapportEditor() {
             options: ['unframed', 'possibly_previously_framed', 'framed'],
             checkedItems: checkedItemsSupport,
             setCheckedItems: setCheckedItemsSupport,
+            refresh: Registratie.identification.framed,
         },
         { label: 'height (mm)', name: 'height', type: 'number' },
         { label: 'width (mm)', name: 'width', type: 'number' },
@@ -260,23 +272,56 @@ function SchadeRapportEditor() {
 
     // storage section
     const [checkedItemsLocation, setCheckedItemsLocation] = useState('')
+    const [checkedItemsLocationSetted, checkedItemsLocationSetSetted] =
+        useState(true)
     const [checkedItemsStorageType, setCheckedItemsStorageType] = useState('')
+    const [checkedItemsStorageTypesSetted, checkedItemsStorageTypesSetSetted] =
+        useState(true)
     const [checkedItemsMaterial, setCheckedItemsMaterial] = useState([])
-    useEffect(() => {
-        if (checkedItemsLocation === '')
-            setCheckedItemsLocation(Registratie.storage.location)
-    }, [Registratie.storage.location, checkedItemsLocation])
+    const [checkedItemsMaterialSetted, checkedItemsMaterialSetSetted] =
+        useState(true)
 
     useEffect(() => {
-        if (checkedItemsStorageType === '')
-            setCheckedItemsStorageType(Registratie.storage.storageType)
-    }, [Registratie.storage.storageType, checkedItemsStorageType])
-
-    useEffect(() => {
-        if (checkedItemsMaterial.length === 0) {
-            setCheckedItemsMaterial(Registratie.storage.material)
+        if (checkedItemsLocationSetted) {
+            if (
+                Registratie.storage.location !== '' &&
+                Registratie.storage.location !== undefined &&
+                Registratie.storage.location !== null
+            ) {
+                console.log('done')
+                setCheckedItemsLocation(Registratie.storage.location)
+                checkedItemsLocationSetSetted(false)
+            }
         }
-    }, [Registratie.storage.material, checkedItemsMaterial])
+    }, [Registratie.storage.location, checkedItemsLocationSetted])
+
+    useEffect(() => {
+        if (checkedItemsStorageTypesSetted) {
+            if (
+                Registratie.storage.storageType !== '' &&
+                Registratie.storage.storageType !== undefined &&
+                Registratie.storage.storageType !== null
+            ) {
+                console.log('done')
+                setCheckedItemsStorageType(Registratie.storage.storageType)
+                checkedItemsStorageTypesSetSetted(false)
+            }
+        }
+    }, [Registratie.storage.storageType, checkedItemsStorageTypesSetted])
+
+    useEffect(() => {
+        if (checkedItemsMaterialSetted) {
+            if (
+                Registratie.storage.material.length !== 0 &&
+                Registratie.storage.material.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedItemsMaterial(Registratie.storage.material)
+                checkedItemsMaterialSetSetted(false)
+            }
+        }
+    }, [Registratie.storage.material, checkedItemsMaterialSetted])
 
     useEffect(() => {
         Registratie.storage.location = checkedItemsLocation
@@ -346,83 +391,229 @@ function SchadeRapportEditor() {
     // primary support section
     const [checkedItemsSupportMaterial1, setCheckedItemsSupportMaterial1] =
         useState([])
+    const [
+        checkedItemsSupportMaterial1Setted,
+        checkedItemsSupportMaterial1SetSetted,
+    ] = useState(true)
     const [checkedItemsSupportPaperType11, setCheckedItemsSupportPaperType11] =
         useState('')
+    const [
+        checkedItemsSupportPaperType11Setted,
+        checkedItemsSupportPaperType11SetSetted,
+    ] = useState(true)
     const [checkedItemsSupportPaperType21, setCheckedItemsSupportPaperType21] =
         useState('')
+    const [
+        checkedItemsSupportPaperType21Setted,
+        checkedItemsSupportPaperType21SetSetted,
+    ] = useState(true)
     const [checkedItemsSupportPaperType31, setCheckedItemsSupportPaperType31] =
         useState('')
+    const [
+        checkedItemsSupportPaperType31Setted,
+        checkedItemsSupportPaperType31SetSetted,
+    ] = useState(true)
     const [checkedItemsAssemblage1, setCheckedItemsAssemblage1] = useState('')
+    const [checkedItemsAssemblage1Setted, checkedItemsAssemblage1SetSetted] =
+        useState(true)
     const [checkedItemsVerso1, setCheckedItemsVerso1] = useState('')
+    const [checkedItemsVerso1Setted, checkedItemsVerso1SetSetted] =
+        useState(true)
     const [checkedItemsWatermark1, setCheckedItemsWatermark1] = useState('')
+    const [checkedItemsWatermark1Setted, checkedItemsWatermark1SetSetted] =
+        useState(true)
     const [checkedItemsPinholes1, setCheckedItemsPinholes1] = useState('')
+    const [checkedItemsPinholes1Setted, checkedItemsPinholes1SetSetted] =
+        useState(true)
     const [checkedItemsCondition1, setCheckedItemsCondition1] = useState('')
+    const [checkedItemsCondition1Setted, checkedItemsCondition1SetSetted] =
+        useState(true)
     const [checkedItemsSurface1, setCheckedItemsSurface1] = useState('')
+    const [checkedItemsSurface1Setted, checkedItemsSurface1SetSetted] =
+        useState(true)
     const [checkedItemsDamage1, setCheckedItemsDamage1] = useState([])
+    const [checkedItemsDamage1Setted, checkedItemsDamage1SetSetted] =
+        useState(true)
 
     useEffect(() => {
-        if (checkedItemsSupportMaterial1.length === 0) {
-            setCheckedItemsSupportMaterial1(Registratie.primarySupport.material)
+        if (checkedItemsSupportMaterial1Setted) {
+            if (
+                Registratie.primarySupport.material.length !== 0 &&
+                Registratie.primarySupport.material.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedItemsSupportMaterial1(
+                    Registratie.primarySupport.material,
+                )
+                checkedItemsSupportMaterial1SetSetted(false)
+            }
         }
-    }, [Registratie.primarySupport.material, checkedItemsSupportMaterial1])
+    }, [
+        Registratie.primarySupport.material,
+        checkedItemsSupportMaterial1Setted,
+    ])
 
     useEffect(() => {
-        if (checkedItemsSupportPaperType11 === '')
-            setCheckedItemsSupportPaperType11(
-                Registratie.primarySupport.paperType1,
-            )
-    }, [Registratie.primarySupport.paperType1, checkedItemsSupportPaperType11])
+        if (checkedItemsSupportPaperType11Setted) {
+            if (
+                Registratie.primarySupport.paperType1 !== '' &&
+                Registratie.primarySupport.paperType1 !== undefined &&
+                Registratie.primarySupport.paperType1 !== null
+            ) {
+                console.log('done')
+                setCheckedItemsSupportPaperType11(
+                    Registratie.primarySupport.paperType1,
+                )
+                checkedItemsSupportPaperType11SetSetted(false)
+            }
+        }
+    }, [
+        Registratie.primarySupport.paperType1,
+        checkedItemsSupportPaperType11Setted,
+    ])
 
     useEffect(() => {
-        if (checkedItemsSupportPaperType21 === '')
-            setCheckedItemsSupportPaperType21(
-                Registratie.primarySupport.paperType2,
-            )
-    }, [Registratie.primarySupport.paperType2, checkedItemsSupportPaperType21])
+        if (checkedItemsSupportPaperType21Setted) {
+            if (
+                Registratie.primarySupport.paperType2 !== '' &&
+                Registratie.primarySupport.paperType2 !== undefined &&
+                Registratie.primarySupport.paperType2 !== null
+            ) {
+                console.log('done')
+                setCheckedItemsSupportPaperType21(
+                    Registratie.primarySupport.paperType2,
+                )
+                checkedItemsSupportPaperType21SetSetted(false)
+            }
+        }
+    }, [
+        Registratie.primarySupport.paperType2,
+        checkedItemsSupportPaperType21Setted,
+    ])
+    useEffect(() => {
+        if (checkedItemsSupportPaperType31Setted) {
+            if (
+                Registratie.primarySupport.paperType3 !== '' &&
+                Registratie.primarySupport.paperType3 !== undefined &&
+                Registratie.primarySupport.paperType3 !== null
+            ) {
+                console.log('done')
+                setCheckedItemsSupportPaperType31(
+                    Registratie.primarySupport.paperType3,
+                )
+                checkedItemsSupportPaperType31SetSetted(false)
+            }
+        }
+    }, [
+        Registratie.primarySupport.paperType3,
+        checkedItemsSupportPaperType31Setted,
+    ])
 
     useEffect(() => {
-        if (checkedItemsSupportPaperType31 === '')
-            setCheckedItemsSupportPaperType31(
-                Registratie.primarySupport.paperType3,
-            )
-    }, [Registratie.primarySupport.paperType3, checkedItemsSupportPaperType31])
+        if (checkedItemsAssemblage1Setted) {
+            if (
+                Registratie.primarySupport.assemblage !== '' &&
+                Registratie.primarySupport.assemblage !== undefined &&
+                Registratie.primarySupport.assemblage !== null
+            ) {
+                console.log('done')
+                setCheckedItemsAssemblage1(
+                    Registratie.primarySupport.assemblage,
+                )
+                checkedItemsAssemblage1SetSetted(false)
+            }
+        }
+    }, [Registratie.primarySupport.assemblage, checkedItemsAssemblage1Setted])
 
     useEffect(() => {
-        if (checkedItemsAssemblage1 === '')
-            setCheckedItemsAssemblage1(Registratie.primarySupport.assemblage)
-    }, [Registratie.primarySupport.assemblage, checkedItemsAssemblage1])
+        if (checkedItemsVerso1Setted) {
+            if (
+                Registratie.primarySupport.rectoVerso !== '' &&
+                Registratie.primarySupport.rectoVerso !== undefined &&
+                Registratie.primarySupport.rectoVerso !== null
+            ) {
+                console.log('done')
+                setCheckedItemsVerso1(Registratie.primarySupport.rectoVerso)
+                checkedItemsVerso1SetSetted(false)
+            }
+        }
+    }, [Registratie.primarySupport.rectoVerso, checkedItemsVerso1Setted])
 
     useEffect(() => {
-        if (checkedItemsVerso1 === '')
-            setCheckedItemsVerso1(Registratie.primarySupport.rectoVerso)
-    }, [Registratie.primarySupport.rectoVerso, checkedItemsVerso1])
+        if (checkedItemsWatermark1Setted) {
+            if (
+                Registratie.primarySupport.watermark !== '' &&
+                Registratie.primarySupport.watermark !== undefined &&
+                Registratie.primarySupport.watermark !== null
+            ) {
+                console.log('done')
+                setCheckedItemsWatermark1(Registratie.primarySupport.watermark)
+                checkedItemsWatermark1SetSetted(false)
+            }
+        }
+    }, [Registratie.primarySupport.watermark, checkedItemsWatermark1Setted])
 
     useEffect(() => {
-        if (checkedItemsWatermark1 === '')
-            setCheckedItemsWatermark1(Registratie.primarySupport.watermark)
-    }, [Registratie.primarySupport.watermark, checkedItemsWatermark1])
+        if (checkedItemsPinholes1Setted) {
+            if (
+                Registratie.primarySupport.pinholed !== '' &&
+                Registratie.primarySupport.pinholed !== undefined &&
+                Registratie.primarySupport.pinholed !== null
+            ) {
+                console.log('done')
+                setCheckedItemsPinholes1(Registratie.primarySupport.pinholed)
+                checkedItemsPinholes1SetSetted(false)
+            }
+        }
+    }, [Registratie.primarySupport.pinholed, checkedItemsPinholes1Setted])
 
     useEffect(() => {
-        if (checkedItemsPinholes1 === '')
-            setCheckedItemsPinholes1(Registratie.primarySupport.pinholed)
-    }, [Registratie.primarySupport.pinholed, checkedItemsPinholes1])
+        if (checkedItemsCondition1Setted) {
+            if (
+                Registratie.primarySupport.generalCondition !== '' &&
+                Registratie.primarySupport.generalCondition !== undefined &&
+                Registratie.primarySupport.generalCondition !== null
+            ) {
+                console.log('done')
+                setCheckedItemsCondition1(
+                    Registratie.primarySupport.generalCondition,
+                )
+                checkedItemsCondition1SetSetted(false)
+            }
+        }
+    }, [
+        Registratie.primarySupport.generalCondition,
+        checkedItemsCondition1Setted,
+    ])
 
     useEffect(() => {
-        if (checkedItemsCondition1 === '')
-            setCheckedItemsCondition1(
-                Registratie.primarySupport.generalCondition,
-            )
-    }, [Registratie.primarySupport.generalCondition, checkedItemsCondition1])
+        if (checkedItemsSurface1Setted) {
+            if (
+                Registratie.primarySupport.surface !== '' &&
+                Registratie.primarySupport.surface !== undefined &&
+                Registratie.primarySupport.surface !== null
+            ) {
+                console.log('done')
+                setCheckedItemsSurface1(Registratie.primarySupport.surface)
+                checkedItemsSurface1SetSetted(false)
+            }
+        }
+    }, [Registratie.primarySupport.surface, checkedItemsSurface1Setted])
 
     useEffect(() => {
-        if (checkedItemsSurface1 === '')
-            setCheckedItemsSurface1(Registratie.primarySupport.surface)
-    }, [Registratie.primarySupport.surface, checkedItemsSurface1])
-
-    useEffect(() => {
-        if (checkedItemsDamage1.length === 0)
-            setCheckedItemsDamage1(Registratie.primarySupport.damage)
-    }, [Registratie.primarySupport.damage, checkedItemsDamage1])
+        if (checkedItemsDamage1Setted) {
+            if (
+                Registratie.primarySupport.damage.length !== 0 &&
+                Registratie.primarySupport.damage.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedItemsDamage1(Registratie.primarySupport.damage)
+                checkedItemsDamage1SetSetted(false)
+            }
+        }
+    }, [Registratie.primarySupport.damage, checkedItemsDamage1Setted])
 
     useEffect(() => {
         Registratie.primarySupport.material = checkedItemsSupportMaterial1
@@ -616,94 +807,231 @@ function SchadeRapportEditor() {
     // secondary support section
     const [checkedItemsSupportMaterial2, setCheckedItemsSupportMaterial2] =
         useState([])
+    const [
+        checkedItemsSupportMaterial2Setted,
+        checkedItemsSupportMaterial2SetSetted,
+    ] = useState(true)
     const [checkedItemsSupportPaperType12, setCheckedItemsSupportPaperType12] =
         useState('')
+    const [
+        checkedItemsSupportPaperType12Setted,
+        checkedItemsSupportPaperType12SetSetted,
+    ] = useState(true)
     const [checkedItemsSupportPaperType22, setCheckedItemsSupportPaperType22] =
         useState('')
+    const [
+        checkedItemsSupportPaperType22Setted,
+        checkedItemsSupportPaperType22SetSetted,
+    ] = useState(true)
     const [checkedItemsSupportPaperType32, setCheckedItemsSupportPaperType32] =
         useState('')
+    const [
+        checkedItemsSupportPaperType32Setted,
+        checkedItemsSupportPaperType32SetSetted,
+    ] = useState(true)
     const [checkedItemsAssemblage2, setCheckedItemsAssemblage2] = useState('')
+    const [checkedItemsAssemblage2Setted, checkedItemsAssemblage2SetSetted] =
+        useState(true)
     const [checkedItemsVerso2, setCheckedItemsVerso2] = useState('')
+    const [checkedItemsVerso2Setted, checkedItemsVerso2SetSetted] =
+        useState(true)
     const [checkedItemsWatermark2, setCheckedItemsWatermark2] = useState('')
+    const [checkedItemsWatermark2Setted, checkedItemsWatermark2SetSetted] =
+        useState(true)
     const [checkedItemsPinholes2, setCheckedItemsPinholes2] = useState('')
+    const [checkedItemsPinholes2Setted, checkedItemsPinholes2SetSetted] =
+        useState(true)
     const [checkedItemsCondition2, setCheckedItemsCondition2] = useState('')
+    const [checkedItemsCondition2Setted, checkedItemsCondition2SetSetted] =
+        useState(true)
     const [checkedItemsSurface2, setCheckedItemsSurface2] = useState('')
+    const [checkedItemsSurface2Setted, checkedItemsSurface2SetSetted] =
+        useState(true)
     const [checkedItemsDamage2, setCheckedItemsDamage2] = useState([])
+    const [checkedItemsDamage2Setted, checkedItemsDamage2SetSetted] =
+        useState(true)
 
     useEffect(() => {
-        if (checkedItemsSupportMaterial2.length === 0) {
-            setCheckedItemsSupportMaterial2(
-                Registratie.secondarySupport.material,
-            )
+        if (checkedItemsSupportMaterial2Setted) {
+            if (
+                Registratie.secondarySupport.material.length !== 0 &&
+                Registratie.secondarySupport.material.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedItemsSupportMaterial2(
+                    Registratie.secondarySupport.material,
+                )
+                checkedItemsSupportMaterial2SetSetted(false)
+            }
         }
-    }, [Registratie.secondarySupport.material, checkedItemsSupportMaterial2])
+    }, [
+        Registratie.secondarySupport.material,
+        checkedItemsSupportMaterial2Setted,
+    ])
 
     useEffect(() => {
-        if (checkedItemsSupportPaperType12 === '')
-            setCheckedItemsSupportPaperType12(
-                Registratie.secondarySupport.paperType1,
-            )
+        if (checkedItemsSupportPaperType12Setted) {
+            if (
+                Registratie.secondarySupport.paperType1 !== '' &&
+                Registratie.secondarySupport.paperType1 !== undefined &&
+                Registratie.secondarySupport.paperType1 !== null
+            ) {
+                console.log('done')
+                setCheckedItemsSupportPaperType12(
+                    Registratie.secondarySupport.paperType1,
+                )
+                checkedItemsSupportPaperType12SetSetted(false)
+            }
+        }
     }, [
         Registratie.secondarySupport.paperType1,
-        checkedItemsSupportPaperType12,
+        checkedItemsSupportPaperType12Setted,
     ])
 
     useEffect(() => {
-        if (checkedItemsSupportPaperType22 === '')
-            setCheckedItemsSupportPaperType22(
-                Registratie.secondarySupport.paperType2,
-            )
+        if (checkedItemsSupportPaperType22Setted) {
+            if (
+                Registratie.secondarySupport.paperType2 !== '' &&
+                Registratie.secondarySupport.paperType2 !== undefined &&
+                Registratie.secondarySupport.paperType2 !== null
+            ) {
+                console.log('done')
+                setCheckedItemsSupportPaperType22(
+                    Registratie.secondarySupport.paperType2,
+                )
+                checkedItemsSupportPaperType22SetSetted(false)
+            }
+        }
     }, [
         Registratie.secondarySupport.paperType2,
-        checkedItemsSupportPaperType22,
+        checkedItemsSupportPaperType22Setted,
     ])
-
     useEffect(() => {
-        if (checkedItemsSupportPaperType32 === '')
-            setCheckedItemsSupportPaperType32(
-                Registratie.secondarySupport.paperType3,
-            )
+        if (checkedItemsSupportPaperType32Setted) {
+            if (
+                Registratie.secondarySupport.paperType3 !== '' &&
+                Registratie.secondarySupport.paperType3 !== undefined &&
+                Registratie.secondarySupport.paperType3 !== null
+            ) {
+                console.log('done')
+                setCheckedItemsSupportPaperType32(
+                    Registratie.secondarySupport.paperType3,
+                )
+                checkedItemsSupportPaperType32SetSetted(false)
+            }
+        }
     }, [
         Registratie.secondarySupport.paperType3,
-        checkedItemsSupportPaperType32,
+        checkedItemsSupportPaperType32Setted,
     ])
 
     useEffect(() => {
-        if (checkedItemsAssemblage2 === '')
-            setCheckedItemsAssemblage2(Registratie.secondarySupport.assemblage)
-    }, [Registratie.secondarySupport.assemblage, checkedItemsAssemblage2])
+        if (checkedItemsAssemblage2Setted) {
+            if (
+                Registratie.secondarySupport.assemblage !== '' &&
+                Registratie.secondarySupport.assemblage !== undefined &&
+                Registratie.secondarySupport.assemblage !== null
+            ) {
+                console.log('done')
+                setCheckedItemsAssemblage2(
+                    Registratie.secondarySupport.assemblage,
+                )
+                checkedItemsAssemblage2SetSetted(false)
+            }
+        }
+    }, [Registratie.secondarySupport.assemblage, checkedItemsAssemblage2Setted])
 
     useEffect(() => {
-        if (checkedItemsVerso2 === '')
-            setCheckedItemsVerso2(Registratie.secondarySupport.rectoVerso)
-    }, [Registratie.secondarySupport.rectoVerso, checkedItemsVerso2])
+        if (checkedItemsVerso2Setted) {
+            if (
+                Registratie.secondarySupport.rectoVerso !== '' &&
+                Registratie.secondarySupport.rectoVerso !== undefined &&
+                Registratie.secondarySupport.rectoVerso !== null
+            ) {
+                console.log('done')
+                setCheckedItemsVerso2(Registratie.secondarySupport.rectoVerso)
+                checkedItemsVerso2SetSetted(false)
+            }
+        }
+    }, [Registratie.secondarySupport.rectoVerso, checkedItemsVerso2Setted])
 
     useEffect(() => {
-        if (checkedItemsWatermark2 === '')
-            setCheckedItemsWatermark2(Registratie.secondarySupport.watermark)
-    }, [Registratie.secondarySupport.watermark, checkedItemsWatermark2])
+        if (checkedItemsWatermark2Setted) {
+            if (
+                Registratie.secondarySupport.watermark !== '' &&
+                Registratie.secondarySupport.watermark !== undefined &&
+                Registratie.secondarySupport.watermark !== null
+            ) {
+                console.log('done')
+                setCheckedItemsWatermark2(
+                    Registratie.secondarySupport.watermark,
+                )
+                checkedItemsWatermark2SetSetted(false)
+            }
+        }
+    }, [Registratie.secondarySupport.watermark, checkedItemsWatermark2Setted])
 
     useEffect(() => {
-        if (checkedItemsPinholes2 === '')
-            setCheckedItemsPinholes2(Registratie.secondarySupport.pinholed)
-    }, [Registratie.secondarySupport.pinholed, checkedItemsPinholes2])
+        if (checkedItemsPinholes2Setted) {
+            if (
+                Registratie.secondarySupport.pinholed !== '' &&
+                Registratie.secondarySupport.pinholed !== undefined &&
+                Registratie.secondarySupport.pinholed !== null
+            ) {
+                console.log('done')
+                setCheckedItemsPinholes2(Registratie.secondarySupport.pinholed)
+                checkedItemsPinholes2SetSetted(false)
+            }
+        }
+    }, [Registratie.secondarySupport.pinholed, checkedItemsPinholes2Setted])
 
     useEffect(() => {
-        if (checkedItemsCondition2 === '')
-            setCheckedItemsCondition2(
-                Registratie.secondarySupport.generalCondition,
-            )
-    }, [Registratie.secondarySupport.generalCondition, checkedItemsCondition2])
+        if (checkedItemsCondition2Setted) {
+            if (
+                Registratie.secondarySupport.generalCondition !== '' &&
+                Registratie.secondarySupport.generalCondition !== undefined &&
+                Registratie.secondarySupport.generalCondition !== null
+            ) {
+                console.log('done')
+                setCheckedItemsCondition2(
+                    Registratie.secondarySupport.generalCondition,
+                )
+                checkedItemsCondition2SetSetted(false)
+            }
+        }
+    }, [
+        Registratie.secondarySupport.generalCondition,
+        checkedItemsCondition2Setted,
+    ])
 
     useEffect(() => {
-        if (checkedItemsSurface2 === '')
-            setCheckedItemsSurface2(Registratie.secondarySupport.surface)
-    }, [Registratie.secondarySupport.surface, checkedItemsSurface2])
+        if (checkedItemsSurface2Setted) {
+            if (
+                Registratie.secondarySupport.surface !== '' &&
+                Registratie.secondarySupport.surface !== undefined &&
+                Registratie.secondarySupport.surface !== null
+            ) {
+                console.log('done')
+                setCheckedItemsSurface2(Registratie.secondarySupport.surface)
+                checkedItemsSurface2SetSetted(false)
+            }
+        }
+    }, [Registratie.secondarySupport.surface, checkedItemsSurface2Setted])
 
     useEffect(() => {
-        if (checkedItemsDamage2.length === 0)
-            setCheckedItemsDamage2(Registratie.secondarySupport.damage)
-    }, [Registratie.secondarySupport.damage, checkedItemsDamage2])
+        if (checkedItemsDamage2Setted) {
+            if (
+                Registratie.secondarySupport.damage.length !== 0 &&
+                Registratie.secondarySupport.damage.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedItemsDamage2(Registratie.secondarySupport.damage)
+                checkedItemsDamage2SetSetted(false)
+            }
+        }
+    }, [Registratie.secondarySupport.damage, checkedItemsDamage2Setted])
 
     useEffect(() => {
         Registratie.secondarySupport.material = checkedItemsSupportMaterial2
@@ -865,7 +1193,6 @@ function SchadeRapportEditor() {
                 'Former_treatment',
                 'Mold',
                 'Insect_damage',
-                'Former_treatment',
                 'Scratch',
                 'Staining',
                 'Rust',
@@ -896,82 +1223,186 @@ function SchadeRapportEditor() {
     }
 
     // first pictorial section
-    // prettier-ignore
     const [checkedPictorialMedia1, setCheckedPictorialMedia1] = useState([])
+    const [
+        checkedItemsPictorialMedia1Setted,
+        checkedItemsPictorialMedia1SetSetted,
+    ] = useState(true)
     const [checkedPictorialFixative1, setCheckedPictorialFixative1] =
         useState('')
+    const [
+        checkedItemsPictorialFixative1Setted,
+        checkedItemsPictorialFixative1SetSetted,
+    ] = useState(true)
     const [checkedPictorialOtherMedia1, setCheckedPictorialOtherMedia1] =
         useState([])
+    const [
+        checkedItemsPictorialOtherMedia1Setted,
+        checkedItemsPictorialOtherMedia1SetSetted,
+    ] = useState(true)
     const [checkedPictorialTechnique1, setCheckedPictorialTechnique1] =
         useState([])
+    const [
+        checkedItemsPictorialTechnique1Setted,
+        checkedItemsPictorialTechnique1SetSetted,
+    ] = useState(true)
     const [checkedPictorialCondition1, setCheckedPictorialCondition1] =
         useState('')
+    const [
+        checkedItemsPictorialCondition1Setted,
+        checkedItemsPictorialCondition1SetSetted,
+    ] = useState(true)
     const [checkedPictorialSurface1, setCheckedPictorialSurface1] = useState('')
+    const [
+        checkedItemsPictorialSurface1Setted,
+        checkedItemsPictorialSurface1SetSetted,
+    ] = useState(true)
     const [checkedPictorialDamage1, setCheckedPictorialDamage1] = useState([])
+    const [
+        checkedItemsPictorialDamage1Setted,
+        checkedItemsPictorialDamage1SetSetted,
+    ] = useState(true)
 
     useEffect(() => {
-        if (checkedPictorialMedia1.length === 0)
-            setCheckedPictorialMedia1(
-                Registratie.primarySupport.pictorial.friableMedia,
-            )
+        if (checkedItemsPictorialMedia1Setted) {
+            if (
+                Registratie.primarySupport.pictorial.friableMedia.length !==
+                    0 &&
+                Registratie.primarySupport.pictorial.friableMedia.every(
+                    function (v) {
+                        return v === null
+                    },
+                ) !== true
+            ) {
+                setCheckedPictorialMedia1(
+                    Registratie.primarySupport.pictorial.friableMedia,
+                )
+                checkedItemsPictorialMedia1SetSetted(false)
+            }
+        }
     }, [
         Registratie.primarySupport.pictorial.friableMedia,
-        checkedPictorialMedia1,
+        checkedItemsPictorialMedia1Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialFixative1 === '')
-            setCheckedPictorialFixative1(
-                Registratie.primarySupport.pictorial.fixative,
-            )
+        if (checkedItemsPictorialFixative1Setted) {
+            if (
+                Registratie.primarySupport.pictorial.fixative !== '' &&
+                Registratie.primarySupport.pictorial.fixative !== undefined &&
+                Registratie.primarySupport.pictorial.fixative !== null
+            ) {
+                console.log('done')
+                setCheckedPictorialFixative1(
+                    Registratie.primarySupport.pictorial.fixative,
+                )
+                checkedItemsPictorialFixative1SetSetted(false)
+            }
+        }
     }, [
         Registratie.primarySupport.pictorial.fixative,
-        checkedPictorialFixative1,
+        checkedItemsPictorialFixative1Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialOtherMedia1.length === 0)
-            setCheckedPictorialOtherMedia1(
-                Registratie.primarySupport.pictorial.otherMedia,
-            )
+        if (checkedItemsPictorialOtherMedia1Setted) {
+            if (
+                Registratie.primarySupport.pictorial.otherMedia.length !== 0 &&
+                Registratie.primarySupport.pictorial.otherMedia.every(function (
+                    v,
+                ) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedPictorialOtherMedia1(
+                    Registratie.primarySupport.pictorial.otherMedia,
+                )
+                checkedItemsPictorialOtherMedia1SetSetted(false)
+            }
+        }
     }, [
         Registratie.primarySupport.pictorial.otherMedia,
-        checkedPictorialOtherMedia1,
+        checkedItemsPictorialOtherMedia1Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialTechnique1.length === 0)
-            setCheckedPictorialTechnique1(
-                Registratie.primarySupport.pictorial.techniques,
-            )
+        if (checkedItemsPictorialTechnique1Setted) {
+            if (
+                Registratie.primarySupport.pictorial.techniques.length !== 0 &&
+                Registratie.primarySupport.pictorial.techniques.every(function (
+                    v,
+                ) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedPictorialTechnique1(
+                    Registratie.primarySupport.pictorial.techniques,
+                )
+                checkedItemsPictorialTechnique1SetSetted(false)
+            }
+        }
     }, [
         Registratie.primarySupport.pictorial.techniques,
-        checkedPictorialTechnique1,
+        checkedItemsPictorialTechnique1Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialCondition1 === '')
-            setCheckedPictorialCondition1(
-                Registratie.primarySupport.pictorial.generalCondition,
-            )
+        if (checkedItemsPictorialCondition1Setted) {
+            if (
+                Registratie.primarySupport.pictorial.generalCondition !== '' &&
+                Registratie.primarySupport.pictorial.generalCondition !==
+                    undefined &&
+                Registratie.primarySupport.pictorial.generalCondition !== null
+            ) {
+                console.log('done')
+                setCheckedPictorialCondition1(
+                    Registratie.primarySupport.pictorial.generalCondition,
+                )
+                checkedItemsPictorialCondition1SetSetted(false)
+            }
+        }
     }, [
         Registratie.primarySupport.pictorial.generalCondition,
-        checkedPictorialCondition1,
+        checkedItemsPictorialCondition1Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialSurface1 === '')
-            setCheckedPictorialSurface1(
-                Registratie.primarySupport.pictorial.surface,
-            )
-    }, [Registratie.primarySupport.pictorial.surface, checkedPictorialSurface1])
+        if (checkedItemsPictorialSurface1Setted) {
+            if (
+                Registratie.primarySupport.pictorial.surface !== '' &&
+                Registratie.primarySupport.pictorial.surface !== undefined &&
+                Registratie.primarySupport.pictorial.surface !== null
+            ) {
+                console.log('done')
+                setCheckedPictorialSurface1(
+                    Registratie.primarySupport.pictorial.surface,
+                )
+                checkedItemsPictorialSurface1SetSetted(false)
+            }
+        }
+    }, [
+        Registratie.primarySupport.pictorial.surface,
+        checkedItemsPictorialSurface1Setted,
+    ])
 
     useEffect(() => {
-        if (checkedPictorialDamage1.length === 0)
-            setCheckedPictorialDamage1(
-                Registratie.primarySupport.pictorial.damage,
-            )
-    }, [Registratie.primarySupport.pictorial.damage, checkedPictorialDamage1])
+        if (checkedItemsPictorialDamage1Setted) {
+            if (
+                Registratie.primarySupport.pictorial.damage.length !== 0 &&
+                Registratie.primarySupport.pictorial.damage.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedPictorialDamage1(
+                    Registratie.primarySupport.pictorial.damage,
+                )
+                checkedItemsPictorialDamage1SetSetted(false)
+            }
+        }
+    }, [
+        Registratie.primarySupport.pictorial.damage,
+        checkedItemsPictorialDamage1Setted,
+    ])
 
     useEffect(() => {
         Registratie.primarySupport.pictorial.friableMedia =
@@ -1095,7 +1526,6 @@ function SchadeRapportEditor() {
                 'Former_treatment',
                 'Mold',
                 'Insect_damage',
-                'Former_treatment',
                 'Scratch',
                 'Staining',
                 'Rust',
@@ -1125,83 +1555,190 @@ function SchadeRapportEditor() {
 
     // second pictorial section
     const [checkedPictorialMedia2, setCheckedPictorialMedia2] = useState([])
+    const [
+        checkedItemsPictorialMedia2Setted,
+        checkedItemsPictorialMedia2SetSetted,
+    ] = useState(true)
     const [checkedPictorialFixative2, setCheckedPictorialFixative2] =
         useState('')
+    const [
+        checkedItemsPictorialFixative2Setted,
+        checkedItemsPictorialFixative2SetSetted,
+    ] = useState(true)
     const [checkedPictorialOtherMedia2, setCheckedPictorialOtherMedia2] =
         useState([])
+    const [
+        checkedItemsPictorialOtherMedia2Setted,
+        checkedItemsPictorialOtherMedia2SetSetted,
+    ] = useState(true)
     const [checkedPictorialTechnique2, setCheckedPictorialTechnique2] =
         useState([])
+    const [
+        checkedItemsPictorialTechnique2Setted,
+        checkedItemsPictorialTechnique2SetSetted,
+    ] = useState(true)
     const [checkedPictorialCondition2, setCheckedPictorialCondition2] =
         useState('')
+    const [
+        checkedItemsPictorialCondition2Setted,
+        checkedItemsPictorialCondition2SetSetted,
+    ] = useState(true)
     const [checkedPictorialSurface2, setCheckedPictorialSurface2] = useState('')
+    const [
+        checkedItemsPictorialSurface2Setted,
+        checkedItemsPictorialSurface2SetSetted,
+    ] = useState(true)
     const [checkedPictorialDamage2, setCheckedPictorialDamage2] = useState([])
+    const [
+        checkedItemsPictorialDamage2Setted,
+        checkedItemsPictorialDamage2SetSetted,
+    ] = useState(true)
 
     useEffect(() => {
-        if (checkedPictorialMedia2.length === 0)
-            setCheckedPictorialMedia2(
-                Registratie.secondarySupport.pictorial.friableMedia,
-            )
+        if (checkedItemsPictorialMedia2Setted) {
+            if (
+                Registratie.secondarySupport.pictorial.friableMedia.length !==
+                    0 &&
+                Registratie.secondarySupport.pictorial.friableMedia.every(
+                    function (v) {
+                        return v === null
+                    },
+                ) !== true
+            ) {
+                setCheckedPictorialMedia2(
+                    Registratie.secondarySupport.pictorial.friableMedia,
+                )
+                checkedItemsPictorialMedia2SetSetted(false)
+            }
+        }
     }, [
         Registratie.secondarySupport.pictorial.friableMedia,
-        checkedPictorialMedia2,
+        checkedItemsPictorialMedia2Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialFixative2 === '')
-            setCheckedPictorialFixative2(
-                Registratie.secondarySupport.pictorial.fixative,
-            )
+        if (checkedItemsPictorialFixative2Setted) {
+            if (
+                Registratie.secondarySupport.pictorial.fixative !== '' &&
+                Registratie.secondarySupport.pictorial.fixative !== undefined &&
+                Registratie.secondarySupport.pictorial.fixative !== null
+            ) {
+                console.log('done')
+                setCheckedPictorialFixative2(
+                    Registratie.secondarySupport.pictorial.fixative,
+                )
+                checkedItemsPictorialFixative2SetSetted(false)
+            }
+        }
     }, [
         Registratie.secondarySupport.pictorial.fixative,
-        checkedPictorialFixative2,
+        checkedItemsPictorialFixative2Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialOtherMedia2.length === 0)
-            setCheckedPictorialOtherMedia2(
-                Registratie.secondarySupport.pictorial.otherMedia,
-            )
+        if (checkedItemsPictorialOtherMedia2Setted) {
+            if (
+                Registratie.secondarySupport.pictorial.otherMedia.length !==
+                    0 &&
+                Registratie.secondarySupport.pictorial.otherMedia.every(
+                    function (v) {
+                        return v === null
+                    },
+                ) !== true
+            ) {
+                setCheckedPictorialOtherMedia2(
+                    Registratie.secondarySupport.pictorial.otherMedia,
+                )
+                checkedItemsPictorialOtherMedia2SetSetted(false)
+            }
+        }
     }, [
         Registratie.secondarySupport.pictorial.otherMedia,
-        checkedPictorialOtherMedia2,
+        checkedItemsPictorialOtherMedia2Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialTechnique2.length === 0)
-            setCheckedPictorialTechnique2(
-                Registratie.secondarySupport.pictorial.techniques,
-            )
+        if (checkedItemsPictorialTechnique2Setted) {
+            if (
+                Registratie.secondarySupport.pictorial.techniques.length !==
+                    0 &&
+                Registratie.secondarySupport.pictorial.techniques.every(
+                    function (v) {
+                        return v === null
+                    },
+                ) !== true
+            ) {
+                setCheckedPictorialTechnique2(
+                    Registratie.secondarySupport.pictorial.techniques,
+                )
+                checkedItemsPictorialTechnique2SetSetted(false)
+            }
+        }
     }, [
         Registratie.secondarySupport.pictorial.techniques,
-        checkedPictorialTechnique2,
+        checkedItemsPictorialTechnique2Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialCondition2 === '')
-            setCheckedPictorialCondition2(
-                Registratie.secondarySupport.pictorial.generalCondition,
-            )
+        if (checkedItemsPictorialCondition2Setted) {
+            if (
+                Registratie.secondarySupport.pictorial.generalCondition !==
+                    '' &&
+                Registratie.secondarySupport.pictorial.generalCondition !==
+                    undefined &&
+                Registratie.secondarySupport.pictorial.generalCondition !== null
+            ) {
+                console.log('done')
+                setCheckedPictorialCondition2(
+                    Registratie.secondarySupport.pictorial.generalCondition,
+                )
+                checkedItemsPictorialCondition2SetSetted(false)
+            }
+        }
     }, [
         Registratie.secondarySupport.pictorial.generalCondition,
-        checkedPictorialCondition2,
+        checkedItemsPictorialCondition2Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialSurface2 === '')
-            setCheckedPictorialSurface2(
-                Registratie.secondarySupport.pictorial.surface,
-            )
+        if (checkedItemsPictorialSurface2Setted) {
+            if (
+                Registratie.secondarySupport.pictorial.surface !== '' &&
+                Registratie.secondarySupport.pictorial.surface !== undefined &&
+                Registratie.secondarySupport.pictorial.surface !== null
+            ) {
+                console.log('done')
+                setCheckedPictorialSurface2(
+                    Registratie.secondarySupport.pictorial.surface,
+                )
+                checkedItemsPictorialSurface2SetSetted(false)
+            }
+        }
     }, [
         Registratie.secondarySupport.pictorial.surface,
-        checkedPictorialSurface2,
+        checkedItemsPictorialSurface2Setted,
     ])
 
     useEffect(() => {
-        if (checkedPictorialDamage2.length === 0)
-            setCheckedPictorialDamage2(
-                Registratie.secondarySupport.pictorial.damage,
-            )
-    }, [Registratie.secondarySupport.pictorial.damage, checkedPictorialDamage2])
+        if (checkedItemsPictorialDamage2Setted) {
+            if (
+                Registratie.secondarySupport.pictorial.damage.length !== 0 &&
+                Registratie.secondarySupport.pictorial.damage.every(function (
+                    v,
+                ) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedPictorialDamage2(
+                    Registratie.secondarySupport.pictorial.damage,
+                )
+                checkedItemsPictorialDamage2SetSetted(false)
+            }
+        }
+    }, [
+        Registratie.secondarySupport.pictorial.damage,
+        checkedItemsPictorialDamage2Setted,
+    ])
 
     useEffect(() => {
         Registratie.secondarySupport.pictorial.friableMedia =
@@ -1364,35 +1901,90 @@ function SchadeRapportEditor() {
     // mounting section
 
     const [checkedItemsNature, setCheckedItemsNature] = useState('')
+    const [checkedItemsNatureSetted, checkedItemsNatureSetSetted] =
+        useState(true)
     const [checkedItemsAssemblage, setCheckedItemsAssemblage] = useState('')
+    const [checkedItemsAssemblageSetted, checkedItemsAssemblageSetSetted] =
+        useState(true)
     const [checkedItemsCondition, setCheckedItemsCondition] = useState('')
+    const [checkedItemsConditionSetted, checkedItemsConditionSetSetted] =
+        useState(true)
     const [checkedItemsSurface, setCheckedItemsSurface] = useState('')
+    const [checkedItemsSurfaceSetted, checkedItemsSurfaceSetSetted] =
+        useState(true)
     const [checkedItemsDamage, setCheckedItemsDamage] = useState([])
+    const [checkedItemsDamageSetted, checkedItemsDamageSetSetted] =
+        useState(true)
 
     useEffect(() => {
-        if (checkedItemsNature === '')
-            setCheckedItemsNature(Registratie.mounting.nature)
-    }, [Registratie.mounting.nature, checkedItemsNature])
+        if (checkedItemsNatureSetted) {
+            if (
+                Registratie.mounting.nature !== '' &&
+                Registratie.mounting.nature !== undefined &&
+                Registratie.mounting.nature !== null
+            ) {
+                console.log('done')
+                setCheckedItemsNature(Registratie.mounting.nature)
+                checkedItemsNatureSetSetted(false)
+            }
+        }
+    }, [Registratie.mounting.nature, checkedItemsNatureSetted])
 
     useEffect(() => {
-        if (checkedItemsAssemblage === '')
-            setCheckedItemsAssemblage(Registratie.mounting.assemblage)
-    }, [Registratie.mounting.assemblage, checkedItemsAssemblage])
+        if (checkedItemsAssemblageSetted) {
+            if (
+                Registratie.mounting.assemblage !== '' &&
+                Registratie.mounting.assemblage !== undefined &&
+                Registratie.mounting.assemblage !== null
+            ) {
+                console.log('done')
+                setCheckedItemsAssemblage(Registratie.mounting.assemblage)
+                checkedItemsAssemblageSetSetted(false)
+            }
+        }
+    }, [Registratie.mounting.assemblage, checkedItemsAssemblageSetted])
 
     useEffect(() => {
-        if (checkedItemsCondition === '')
-            setCheckedItemsCondition(Registratie.mounting.generalCondition)
-    }, [Registratie.mounting.generalCondition, checkedItemsCondition])
+        if (checkedItemsConditionSetted) {
+            if (
+                Registratie.mounting.generalCondition !== '' &&
+                Registratie.mounting.generalCondition !== undefined &&
+                Registratie.mounting.generalCondition !== null
+            ) {
+                console.log('done')
+                setCheckedItemsCondition(Registratie.mounting.generalCondition)
+                checkedItemsConditionSetSetted(false)
+            }
+        }
+    }, [Registratie.mounting.generalCondition, checkedItemsConditionSetted])
 
     useEffect(() => {
-        if (checkedItemsSurface === '')
-            setCheckedItemsSurface(Registratie.mounting.surface)
-    }, [Registratie.mounting.surface, checkedItemsSurface])
+        if (checkedItemsSurfaceSetted) {
+            if (
+                Registratie.mounting.surface !== '' &&
+                Registratie.mounting.surface !== undefined &&
+                Registratie.mounting.surface !== null
+            ) {
+                console.log('done')
+                setCheckedItemsSurface(Registratie.mounting.surface)
+                checkedItemsSurfaceSetSetted(false)
+            }
+        }
+    }, [Registratie.mounting.surface, checkedItemsSurfaceSetted])
 
     useEffect(() => {
-        if (checkedItemsDamage.length === 0)
-            setCheckedItemsDamage(Registratie.mounting.damage)
-    }, [Registratie.mounting.damage, checkedItemsDamage])
+        if (checkedItemsDamageSetted) {
+            if (
+                Registratie.mounting.damage.length !== 0 &&
+                Registratie.mounting.damage.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedItemsDamage(Registratie.mounting.damage)
+                checkedItemsDamageSetSetted(false)
+            }
+        }
+    }, [Registratie.mounting.damage, checkedItemsDamageSetted])
 
     useEffect(() => {
         Registratie.mounting.nature = checkedItemsNature

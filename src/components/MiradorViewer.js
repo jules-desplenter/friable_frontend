@@ -39,12 +39,7 @@ function MiradorViewer(props) {
                     ),
             },
         }
-        let cool = mirador.viewer(config, [...annotationPlugins])
-        console.log(cool.render())
-        setTimeout(() => {
-            cool.render()
-            console.log('rerendert')
-        }, 5000)
+        mirador.viewer(config, [...annotationPlugins])
         // setTimeout(() => {
         //     if (clicked) {
         //         let blubber = document.getElementsByClassName(

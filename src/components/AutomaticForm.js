@@ -18,6 +18,7 @@ const AutomaticForm = ({ fields, handleChange, formData }) => {
     }
 
     const handleRadioChange = (event, checkedItems, setCheckedItems) => {
+        console.log('what')
         setCheckedItems(event.target.value)
     }
 
@@ -27,7 +28,6 @@ const AutomaticForm = ({ fields, handleChange, formData }) => {
                 <div key={field.name} className="flex flex-col justify-start">
                     {field.type === 'checkBox' ? (
                         <>
-                            {console.log(field.name)}
                             <p>{field.name}</p>
                             {field.options.map((item, index) => (
                                 <label>
@@ -74,7 +74,11 @@ const AutomaticForm = ({ fields, handleChange, formData }) => {
                                         id={`checkbox-${index}`}
                                         name={field.name}
                                         value={item}
-                                        checked={field.checkedItems === item}
+                                        checked={
+                                            field.checkedItems !== ''
+                                                ? field.checkedItems === item
+                                                : field.refresh === item
+                                        }
                                         onChange={(e) =>
                                             handleRadioChange(
                                                 e,
