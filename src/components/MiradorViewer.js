@@ -3,9 +3,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import mirador from 'mirador/dist/es/src/index'
 import annotationPlugins from 'mirador-annotations-intl'
 import AspNetAdapter from './aspnetAdapter'
+
 function MiradorViewer(props) {
     const myElement = useRef(null)
-    const [clicked, setClicked] = useState(true)
+    const [manifestUrl, setManifestUrl] = useState(
+        'https://localhost:7148/api/Manifest/' + props.id + '/manifest.json',
+    )
 
     const containerStyle = {
         width: '50%',
@@ -20,10 +23,8 @@ function MiradorViewer(props) {
             id: 'app',
             windows: [
                 {
-                    manifestId:
-                        'https://localhost:7148/api/Manifest/' +
-                        props.id +
-                        '/manifest.json',
+                    manifestId: manifestUrl,
+
                     // sideBarOpen: false,
                     defaultSideBarPanel: 'annotations',
                     sideBarOpenByDefault: true,
@@ -34,11 +35,16 @@ function MiradorViewer(props) {
                     new AspNetAdapter(
                         canvasId,
                         'https://localhost:7148/api/annotation',
+                        setManifestUrl,
                     ),
-                exportLocalStorageAnnotations: false,
             },
         }
-        mirador.viewer(config, [...annotationPlugins])
+        let cool = mirador.viewer(config, [...annotationPlugins])
+        console.log(cool.render())
+        setTimeout(() => {
+            cool.render()
+            console.log('rerendert')
+        }, 5000)
         // setTimeout(() => {
         //     if (clicked) {
         //         let blubber = document.getElementsByClassName(
@@ -50,7 +56,7 @@ function MiradorViewer(props) {
         //         setClicked(false)
         //     }
         // }, 100)
-    }, [myElement, clicked, props.id])
+    }, [myElement, props.id, setManifestUrl, manifestUrl])
     return (
         <>
             <div style={containerStyle}>

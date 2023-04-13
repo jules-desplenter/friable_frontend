@@ -20,8 +20,7 @@ function NieuwSchaderapport() {
         event.preventDefault()
         formData['height'] = height
         formData['width'] = width
-        formData['imagelink'] =
-            'http://localhost:8182/iiif/2/' + url + '/full/max/0/default.jpg'
+        formData['imagelink'] = 'http://localhost:8182/iiif/2/' + url
         postmanifest(formData, setResponse)
         console.log(response)
         setLoading(true)

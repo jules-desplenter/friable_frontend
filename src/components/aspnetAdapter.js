@@ -1,23 +1,29 @@
 export default class AspNetAdapter {
     /** */
-    constructor(canvasId, endpointUrl) {
+    constructor(canvasId, endpointUrl, setManifestUrl) {
         this.canvasId = canvasId
         this.endpointUrl = endpointUrl
+        this.setManifestUrl = setManifestUrl
     }
 
     /** */
     get annotationPageId() {
-        let info = this.canvasId.split('/')
+        console.log(this.canvasId)
+        let info = this.canvasId
+        // prettier-ignore
+        info = info.replace("context.json", "")
+        info = info.split('/')
         info = info.slice(-3)
-        console.log(info)
         return `${this.endpointUrl}/${info[0]}/${info[1]}/${info[2]}`
     }
 
     /** */
     async create(annotation) {
+        let info = this.canvasId.split('/')
+        info = info.slice(-3)
         return fetch(this.endpointUrl, {
             body: JSON.stringify({
-                canvas: this.canvasId,
+                canvas: info[0],
                 data: JSON.stringify(annotation),
                 uuid: annotation.id,
             }),
@@ -27,7 +33,10 @@ export default class AspNetAdapter {
             },
             method: 'POST',
         })
-            .then((response) => this.all())
+            .then((response) => {
+                console.log(response)
+                return this.all()
+            })
             .catch(() => this.all())
     }
 
@@ -55,26 +64,50 @@ export default class AspNetAdapter {
 
     /** */
     async delete(annoId) {
-        return fetch(`${this.endpointUrl}/${encodeURIComponent(annoId)}`, {
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
+        console.log(this.canvasId)
+        let info = this.canvasId
+        // prettier-ignore
+        info = info.replace("context.json", "")
+        info = info.split('/')
+        info = info.slice(-3)
+        return fetch(
+            `${this.endpointUrl}/${info[0]}/${info[1]}/${
+                info[2]
+            }/${encodeURIComponent(annoId)}`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                method: 'DELETE',
             },
-            method: 'DELETE',
-        })
-            .then((response) => this.all())
+        )
+            .then((response) => {
+                this.all()
+                this.setManifestUrl('iets anders')
+            })
             .catch(() => this.all())
     }
 
     /** */
     async get(annoId) {
+        let info = this.canvasId
+        // prettier-ignore
+        info = info.replace("context.json", "")
+        info = info.split('/')
+        info = info.slice(-3)
         return (
-            await fetch(`${this.endpointUrl}/${encodeURIComponent(annoId)}`, {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
+            await fetch(
+                `${this.endpointUrl}/${info[0]}/${info[1]}/${
+                    info[2]
+                }/${encodeURIComponent(annoId)}`,
+                {
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
                 },
-            })
+            )
         ).json()
     }
 
