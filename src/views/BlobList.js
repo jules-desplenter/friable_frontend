@@ -59,15 +59,10 @@ function BlobList() {
                     {post ? <TableBlob data={post}></TableBlob> : null}
                 </div>
             </div>
-            <a
-                href="/bloblist"
-                className="bg-greenCustom rounded-2xl fixed bottom-0 right-0 m-6"
-            >
-                <p className="mx-4 my-1">Voeg rapport toe</p>
-            </a>
+
             <div
                 onClick={openModal}
-                className="bg-greenCustom rounded-2xl fixed bottom-0 right-0 m-6 cursor-pointer"
+                className="bg-greenCustom rounded-2xl fixed bottom-0 right-0 m-6 cursor-pointer text-white hover:bg-blackCustom"
             >
                 <p className="mx-4 my-1">Voeg schilderij toe</p>
             </div>

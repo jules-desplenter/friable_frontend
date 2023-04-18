@@ -19,11 +19,11 @@ const TableRegistration = ({ data }) => {
                 accessor: 'reason',
             },
             {
-                Header: 'Schaderapport aanpassen',
+                Header: 'Schaderapport',
                 accessor: 'id',
                 Cell: ({ value }) => {
                     return (
-                        <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center">
+                        <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center hover:bg-blackCustom text-white">
                             <a href={'/schaderapport/' + value}>aanpassen</a>
                         </div>
                     )

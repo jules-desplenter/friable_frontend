@@ -46,7 +46,7 @@ function NieuwSchaderapport() {
                 <div>uploading the manifest</div>
             ) : (
                 <>
-                    <div className="w-full flex justify-center mt-6">
+                    <div className="w-full flex justify-center pt-20">
                         <img
                             className="h-96"
                             src={

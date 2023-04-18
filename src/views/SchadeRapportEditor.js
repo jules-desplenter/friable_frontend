@@ -8,6 +8,7 @@ import useUpdateRegistration from '../hooks/useUpdateRegistration'
 import useAddRegistration from '../hooks/useAddRegistration'
 import useGetRegistration from '../hooks/useGetRegistration'
 import MiradorViewer from '../components/MiradorViewer'
+import Modal from 'react-modal'
 
 function SchadeRapportEditor() {
     const { objectid } = useParams()
@@ -168,12 +169,14 @@ function SchadeRapportEditor() {
         },
     })
 
+    useEffect(() => console.log(Registratie), [Registratie])
     const { loading, error, element } = useGetRegistration(objectid)
 
     const postRegistration = useAddRegistration()
     const updateRegistration = useUpdateRegistration(objectid)
     const [response, setResponse] = useState()
     const [firstTime, setFirstTime] = useState(true)
+    const [submitModal, setSubmitModal] = useState(false)
     useEffect(() => {
         if (
             loading === false &&
@@ -184,11 +187,14 @@ function SchadeRapportEditor() {
             setRegistratie(element)
         }
     }, [element, error, loading])
+
     const handleSubmit = () => {
         if (firstTime) {
             postRegistration(Registratie, setResponse)
+            setSubmitModal(true)
         } else {
             updateRegistration(Registratie, setResponse)
+            setSubmitModal(true)
         }
     }
 
@@ -374,7 +380,7 @@ function SchadeRapportEditor() {
             checkedItems: checkedItemsMaterial,
             setCheckedItems: setCheckedItemsMaterial,
         },
-        { label: 'remarks', name: 'remarks', type: 'textArea' },
+        { label: 'remarks', name: 'remarks', type: 'textBox' },
     ]
 
     const handleStorageChange = (event) => {
@@ -743,7 +749,7 @@ function SchadeRapportEditor() {
         {
             label: 'remarks',
             name: 'remarksDescription',
-            type: 'text',
+            type: 'textBox',
         },
         {
             label: 'general condition',
@@ -789,7 +795,7 @@ function SchadeRapportEditor() {
         {
             label: 'remarks',
             name: 'remarksCondition',
-            type: 'text',
+            type: 'textBox',
         },
     ]
 
@@ -1161,7 +1167,7 @@ function SchadeRapportEditor() {
         {
             label: 'remarks',
             name: 'remarksDescription',
-            type: 'text',
+            type: 'textBox',
         },
         {
             label: 'general condition',
@@ -1207,7 +1213,7 @@ function SchadeRapportEditor() {
         {
             label: 'remarks',
             name: 'remarksCondition',
-            type: 'text',
+            type: 'textBox',
         },
     ]
 
@@ -2261,9 +2267,57 @@ function SchadeRapportEditor() {
     }
 
     const [page, setPage] = useState(0)
+    const [otherValues, setOtherValues] = useState(
+        Array.from({ length: 8 }, () => ''),
+    )
+    const [otherValuesPrimarySupport, setOtherValuesPrimarySupport] = useState(
+        Array.from({ length: 8 }, () => ''),
+    )
+    const [otherValuesSecondarySupport, setOtherValuesSecondarySupport] =
+        useState(Array.from({ length: 8 }, () => ''))
+    const [otherValuesPrimaryPictorial, setOtherValuesPrimaryPictorial] =
+        useState(Array.from({ length: 8 }, () => ''))
+    const [otherValuesSecondaryPictorial, setOtherValuesSecondaryPictorial] =
+        useState(Array.from({ length: 8 }, () => ''))
+    const [otherValuesMounting, setOtherValuesMounting] = useState(
+        Array.from({ length: 8 }, () => ''),
+    )
+
+    const customStyles = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+        },
+    }
 
     return (
         <>
+            <Modal
+                isOpen={submitModal}
+                onRequestClose={() => setSubmitModal(false)}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <div>Succesfully uploaded your data</div>
+                <div className="flex justify-between mt-2">
+                    <button
+                        className="bg-darkBrown px-2 rounded-2xl hover:bg-blackCustom text-white"
+                        onClick={() => setSubmitModal(false)}
+                    >
+                        close
+                    </button>
+                    <a
+                        href="/"
+                        className="bg-greenCustom px-2 rounded-2xl hover:bg-blackCustom text-white"
+                    >
+                        home
+                    </a>
+                </div>
+            </Modal>
             <div className="w-full flex flex-wrap">
                 <div className="w-1/2  pt-20 pb-28">
                     {page === 0 ? (
@@ -2357,48 +2411,62 @@ function SchadeRapportEditor() {
                             fields={StorageForm}
                             handleChange={handleStorageChange}
                             formData={Registratie.storage}
+                            otherValues={otherValues}
+                            setOtherValues={setOtherValues}
                         />
                     ) : page === 3 ? (
                         <AutomaticForm
                             fields={PrimarySupportForm}
                             handleChange={handlePrimarySupportChange}
                             formData={Registratie.primarySupport}
+                            otherValues={otherValuesPrimarySupport}
+                            setOtherValues={setOtherValuesPrimarySupport}
                         />
                     ) : page === 4 ? (
                         <AutomaticForm
                             fields={SecondartSupportForm}
                             handleChange={handleSecondarySupportChange}
                             formData={Registratie.secondarySupport}
+                            otherValues={otherValuesSecondarySupport}
+                            setOtherValues={setOtherValuesSecondarySupport}
                         />
                     ) : page === 5 ? (
                         <AutomaticForm
                             fields={FirstPictorialForm}
                             handleChange={handleFirstPictorailChange}
                             formData={Registratie.primarySupport.pictorial}
+                            otherValues={otherValuesPrimaryPictorial}
+                            setOtherValues={setOtherValuesPrimaryPictorial}
                         />
                     ) : page === 6 ? (
                         <AutomaticForm
                             fields={SecondaryPictorialForm}
                             handleChange={handleSecondPictorailChange}
                             formData={Registratie.secondarySupport.pictorial}
+                            otherValues={otherValuesSecondaryPictorial}
+                            setOtherValues={setOtherValuesSecondaryPictorial}
                         />
                     ) : page === 7 ? (
                         <AutomaticForm
                             fields={mountingForm}
                             handleChange={handleMountingChange}
                             formData={Registratie.mounting}
+                            otherValues={otherValuesMounting}
+                            setOtherValues={setOtherValuesMounting}
                         />
                     ) : (
                         <textarea
                             value={Registratie.remarks}
                             onChange={handleGeneralRemarks}
+                            className="bg-background border border-blackCustom pl-2 rounded text-blackCustom placeholder-gray-700 w-1/2"
+                            placeholder="Remarks"
                         ></textarea>
                     )}
                     <div className="fixed bottom-0 pb-6 pt-4 w-1/2 flex justify-center bg-white border-t-2">
-                        <div className="flex justify-between w-9/12 flex-wrap">
+                        <div className="flex justify-between w-9/12 flex-wrap items-center">
                             <div
                                 onClick={() => setPage(0)}
-                                className={`underline cursor-pointer ${
+                                className={`underline cursor-pointer mt-2 ${
                                     page === 0
                                         ? 'font-bold opacity-100'
                                         : 'opacity-50'
@@ -2408,7 +2476,7 @@ function SchadeRapportEditor() {
                             </div>
                             <div
                                 onClick={() => setPage(1)}
-                                className={`underline cursor-pointer ${
+                                className={`underline cursor-pointer mt-2 ${
                                     page === 1
                                         ? 'font-bold opacity-100'
                                         : 'opacity-50'
@@ -2418,7 +2486,7 @@ function SchadeRapportEditor() {
                             </div>
                             <div
                                 onClick={() => setPage(2)}
-                                className={`underline cursor-pointer ${
+                                className={`underline cursor-pointer mt-2 ${
                                     page === 2
                                         ? 'font-bold opacity-100'
                                         : 'opacity-50'
@@ -2428,7 +2496,7 @@ function SchadeRapportEditor() {
                             </div>
                             <div
                                 onClick={() => setPage(3)}
-                                className={`underline cursor-pointer ${
+                                className={`underline cursor-pointer mt-2 ${
                                     page === 3
                                         ? 'font-bold opacity-100'
                                         : 'opacity-50'
@@ -2438,7 +2506,7 @@ function SchadeRapportEditor() {
                             </div>
                             <div
                                 onClick={() => setPage(4)}
-                                className={`underline cursor-pointer ${
+                                className={`underline cursor-pointer mt-2 ${
                                     page === 4
                                         ? 'font-bold opacity-100'
                                         : 'opacity-50'
@@ -2448,7 +2516,7 @@ function SchadeRapportEditor() {
                             </div>
                             <div
                                 onClick={() => setPage(5)}
-                                className={`underline cursor-pointer ${
+                                className={`underline cursor-pointer mt-2 ${
                                     page === 5
                                         ? 'font-bold opacity-100'
                                         : 'opacity-50'
@@ -2458,7 +2526,7 @@ function SchadeRapportEditor() {
                             </div>
                             <div
                                 onClick={() => setPage(6)}
-                                className={`underline cursor-pointer ${
+                                className={`underline cursor-pointer mt-2 ${
                                     page === 6
                                         ? 'font-bold opacity-100'
                                         : 'opacity-50'
@@ -2468,7 +2536,7 @@ function SchadeRapportEditor() {
                             </div>
                             <div
                                 onClick={() => setPage(7)}
-                                className={`underline cursor-pointer ${
+                                className={`underline cursor-pointer mt-2 ${
                                     page === 7
                                         ? 'font-bold opacity-100'
                                         : 'opacity-50'
@@ -2478,7 +2546,7 @@ function SchadeRapportEditor() {
                             </div>
                             <div
                                 onClick={() => setPage(8)}
-                                className={`underline cursor-pointer ${
+                                className={`underline cursor-pointer mt-2 ${
                                     page === 8
                                         ? 'font-bold opacity-100'
                                         : 'opacity-50'
@@ -2488,13 +2556,9 @@ function SchadeRapportEditor() {
                             </div>
                             <div
                                 onClick={handleSubmit}
-                                className={`underline cursor-pointer ${
-                                    page === 8
-                                        ? 'font-bold opacity-100'
-                                        : 'opacity-50'
-                                }`}
+                                className={`cursor-pointer bg-greenCustom px-2 rounded-2xl mt-2 flex items-center hover:bg-blackCustom text-white`}
                             >
-                                submit this shit
+                                submit
                             </div>
                         </div>
                     </div>

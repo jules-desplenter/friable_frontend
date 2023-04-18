@@ -22,7 +22,7 @@ const TableBlob = ({ data }, props) => {
                 accessor: 'name2',
                 Cell: ({ value }) => {
                     return (
-                        <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center">
+                        <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center text-white hover:bg-blackCustom">
                             <a href={'/nieuwschade/' + value}>
                                 Schaderapport maken
                             </a>

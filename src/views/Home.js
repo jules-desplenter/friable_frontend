@@ -39,7 +39,7 @@ function Home() {
             </div>
             <a
                 href="/bloblist"
-                className="bg-greenCustom rounded-2xl fixed bottom-0 right-0 m-6"
+                className="bg-greenCustom rounded-2xl fixed bottom-0 right-0 m-6 text-white hover:bg-blackCustom"
             >
                 <p className="mx-4 my-1">Voeg rapport toe</p>
             </a>
