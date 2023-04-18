@@ -8,13 +8,14 @@ export default class AspNetAdapter {
 
     /** */
     get annotationPageId() {
-        console.log(this.canvasId)
         let info = this.canvasId
         // prettier-ignore
         info = info.replace("context.json", "")
         info = info.split('/')
         info = info.slice(-3)
-        return `${this.endpointUrl}/${info[0]}/${info[1]}/${info[2]}`
+        console.log(info)
+        // return `${this.endpointUrl}/${info[0]}/${info[1]}/${info[2]}`
+        return `https://localhost:7148/api/manifest/${info[0]}/page/p2/1`
     }
 
     /** */
@@ -42,20 +43,25 @@ export default class AspNetAdapter {
 
     /** */
     async update(annotation) {
+        let info = this.canvasId
+        // prettier-ignore
+        info = info.replace("context.json", "")
+        info = info.split('/')
+        info = info.slice(-3)
         return fetch(
-            `${this.endpointUrl}/${encodeURIComponent(annotation.id)}`,
+            `${this.endpointUrl}/${info[0]}/${info[1]}/${
+                info[2]
+            }/${encodeURIComponent(annotation.id)}`,
             {
                 body: JSON.stringify({
-                    annotation: {
-                        data: JSON.stringify(annotation),
-                        uuid: annotation.id,
-                    },
+                    data: JSON.stringify(annotation),
+                    uuid: annotation.id,
                 }),
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
-                method: 'PATCH',
+                method: 'POST',
             },
         )
             .then((response) => this.all())
@@ -64,7 +70,7 @@ export default class AspNetAdapter {
 
     /** */
     async delete(annoId) {
-        console.log(this.canvasId)
+        console.log(this.annotationPageId, 'cool')
         let info = this.canvasId
         // prettier-ignore
         info = info.replace("context.json", "")
@@ -82,10 +88,7 @@ export default class AspNetAdapter {
                 method: 'DELETE',
             },
         )
-            .then((response) => {
-                this.all()
-                this.setManifestUrl('iets anders')
-            })
+            .then((response) => this.all())
             .catch(() => this.all())
     }
 
