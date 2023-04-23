@@ -1,7 +1,7 @@
 import '../App.css'
 import React, { useEffect, useRef, useState } from 'react'
 import mirador from 'mirador/dist/es/src/index'
-import annotationPlugins from 'mirador-annotations-intl'
+import annotationPlugins from '../mirador-annotations/src'
 import AspNetAdapter from './aspnetAdapter'
 
 function MiradorViewer(props) {
@@ -16,6 +16,7 @@ function MiradorViewer(props) {
         position: 'fixed',
         bottom: '0px',
         right: '0px',
+        display: window.innerWidth <= 768 ? 'none' : 'block',
     }
 
     useEffect(() => {
@@ -40,17 +41,6 @@ function MiradorViewer(props) {
             },
         }
         mirador.viewer(config, [...annotationPlugins])
-        // setTimeout(() => {
-        //     if (clicked) {
-        //         let blubber = document.getElementsByClassName(
-        //             'MuiIconButton-label',
-        //         )
-        //         blubber.item(7)
-        //             ? blubber.item(7).click()
-        //             : console.log('not found')
-        //         setClicked(false)
-        //     }
-        // }, 100)
     }, [myElement, props.id, setManifestUrl, manifestUrl])
     return (
         <>

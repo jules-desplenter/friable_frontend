@@ -1,8 +1,22 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useTable, useSortBy, useGlobalFilter } from 'react-table'
-
+import { useNavigate } from 'react-router-dom'
 const TableBlob = ({ data }, props) => {
+    const navigate = useNavigate()
     const [filterValue, setFilterValue] = useState('')
+    const [names, setNames] = useState([])
+
+    const handleClick = (value) => {
+        setNames((prevnames) => [...prevnames, value])
+    }
+
+    const handleClickRemove = (value) => {
+        setNames((prevNames) => prevNames.filter((name) => name !== value))
+    }
+
+    useEffect(() => {
+        console.log(names)
+    }, [names])
 
     const columns = useMemo(
         () => [
@@ -27,6 +41,28 @@ const TableBlob = ({ data }, props) => {
                                 Schaderapport maken
                             </a>
                         </div>
+                    )
+                },
+            },
+            {
+                Header: 'Schaderapport maken',
+                accessor: 'name3',
+                Cell: ({ value }) => {
+                    return (
+                        <>
+                            <div
+                                className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center text-white hover:bg-blackCustom"
+                                onClick={() => handleClick(value)}
+                            >
+                                toevoegen
+                            </div>
+                            <div
+                                className="bg-darkBrown px-2 pt-1 rounded-2xl h-8 flex align-center text-white hover:bg-blackCustom"
+                                onClick={() => handleClickRemove(value)}
+                            >
+                                verwijderen
+                            </div>
+                        </>
                     )
                 },
             },
@@ -62,6 +98,24 @@ const TableBlob = ({ data }, props) => {
 
     return (
         <>
+            {names.length > 0 ? (
+                <>
+                    <div className=" ">
+                        selected pictures:_
+                        {names.map((e) => e + ', ')}
+                    </div>
+                    <div
+                        onClick={() =>
+                            navigate('/nieuwschademeer', { state: { names } })
+                        }
+                        className="cursor-pointer"
+                    >
+                        Make manifest
+                    </div>
+                </>
+            ) : (
+                ''
+            )}
             <div className="w-full flex justify-begin">
                 <input
                     type="text"

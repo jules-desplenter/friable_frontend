@@ -167,6 +167,61 @@ function SchadeRapportEditor() {
             descriptionRemarks: null,
             conditionRemarks: null,
         },
+        framing: {
+            id: uuidv4(),
+            height: 0,
+            width: 0,
+            depth: 0,
+            shape: null,
+            appertureFrameHeight: 0,
+            apertureFrameWidth: 0,
+            apretureMountHeight: 0,
+            apertureMountWidth: 0,
+            maxPaintingDimensionsHeight: 0,
+            maxPaintingDimensionsWidth: 0,
+            rabbetAccessible: null,
+            rabbetHeight: 0,
+            rabbetWidth: 0,
+            rabbetDepth: 0,
+            innerSpacersHeight: 0,
+            innerSpacersWidth: 0,
+            innerSpacersDepth: 0,
+            externalRisingSticksHeight: 0,
+            externalRisingSticksWidth: 0,
+            externalRisingSticksDepth: 0,
+            dimensionRemarks: null,
+            mouldingMaterial: null,
+            mouldingAssemblage: null,
+            raisingSticksMaterial: null,
+            raisingSticksAssemblage: null,
+            innerSpacers1: null,
+            innerSpacers2: null,
+            backingBoard1: null,
+            backingBoard2: null,
+            sealing: null,
+            hangingSystem: null,
+            indicators: null,
+            descriptionRemarks: null,
+            material: null,
+            assemblage: null,
+            glazingHeight: 0,
+            glazingWidth: 0,
+            glazingEstimation: null,
+            glazingRemarks: null,
+            originalFraming: null,
+            historyIndicators: null,
+            labelsAmount: 0,
+            historyDescription: null,
+            surface: null,
+            mechanicalProblems: [null],
+            mechanicalProblemsSerialized: null,
+            chemicalProblems: [null],
+            chemicalProblemsSerialized: null,
+            biologicalProblems: [null],
+            biologicalProblemsSerialized: null,
+            aestheticProblems: [null],
+            aestheticProblemsSerialized: null,
+        },
     })
 
     useEffect(() => console.log(Registratie), [Registratie])
@@ -229,7 +284,6 @@ function SchadeRapportEditor() {
                 Registratie.identification.framed !== undefined &&
                 Registratie.identification.framed !== null
             ) {
-                console.log('done')
                 setCheckedItemsSupport(Registratie.identification.framed)
                 checkedItemsSupportSetSetted(false)
             }
@@ -294,7 +348,6 @@ function SchadeRapportEditor() {
                 Registratie.storage.location !== undefined &&
                 Registratie.storage.location !== null
             ) {
-                console.log('done')
                 setCheckedItemsLocation(Registratie.storage.location)
                 checkedItemsLocationSetSetted(false)
             }
@@ -308,7 +361,6 @@ function SchadeRapportEditor() {
                 Registratie.storage.storageType !== undefined &&
                 Registratie.storage.storageType !== null
             ) {
-                console.log('done')
                 setCheckedItemsStorageType(Registratie.storage.storageType)
                 checkedItemsStorageTypesSetSetted(false)
             }
@@ -467,7 +519,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.paperType1 !== undefined &&
                 Registratie.primarySupport.paperType1 !== null
             ) {
-                console.log('done')
                 setCheckedItemsSupportPaperType11(
                     Registratie.primarySupport.paperType1,
                 )
@@ -486,7 +537,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.paperType2 !== undefined &&
                 Registratie.primarySupport.paperType2 !== null
             ) {
-                console.log('done')
                 setCheckedItemsSupportPaperType21(
                     Registratie.primarySupport.paperType2,
                 )
@@ -504,7 +554,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.paperType3 !== undefined &&
                 Registratie.primarySupport.paperType3 !== null
             ) {
-                console.log('done')
                 setCheckedItemsSupportPaperType31(
                     Registratie.primarySupport.paperType3,
                 )
@@ -523,7 +572,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.assemblage !== undefined &&
                 Registratie.primarySupport.assemblage !== null
             ) {
-                console.log('done')
                 setCheckedItemsAssemblage1(
                     Registratie.primarySupport.assemblage,
                 )
@@ -539,7 +587,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.rectoVerso !== undefined &&
                 Registratie.primarySupport.rectoVerso !== null
             ) {
-                console.log('done')
                 setCheckedItemsVerso1(Registratie.primarySupport.rectoVerso)
                 checkedItemsVerso1SetSetted(false)
             }
@@ -553,7 +600,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.watermark !== undefined &&
                 Registratie.primarySupport.watermark !== null
             ) {
-                console.log('done')
                 setCheckedItemsWatermark1(Registratie.primarySupport.watermark)
                 checkedItemsWatermark1SetSetted(false)
             }
@@ -567,7 +613,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.pinholed !== undefined &&
                 Registratie.primarySupport.pinholed !== null
             ) {
-                console.log('done')
                 setCheckedItemsPinholes1(Registratie.primarySupport.pinholed)
                 checkedItemsPinholes1SetSetted(false)
             }
@@ -581,7 +626,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.generalCondition !== undefined &&
                 Registratie.primarySupport.generalCondition !== null
             ) {
-                console.log('done')
                 setCheckedItemsCondition1(
                     Registratie.primarySupport.generalCondition,
                 )
@@ -600,7 +644,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.surface !== undefined &&
                 Registratie.primarySupport.surface !== null
             ) {
-                console.log('done')
                 setCheckedItemsSurface1(Registratie.primarySupport.surface)
                 checkedItemsSurface1SetSetted(false)
             }
@@ -883,7 +926,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.paperType1 !== undefined &&
                 Registratie.secondarySupport.paperType1 !== null
             ) {
-                console.log('done')
                 setCheckedItemsSupportPaperType12(
                     Registratie.secondarySupport.paperType1,
                 )
@@ -902,7 +944,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.paperType2 !== undefined &&
                 Registratie.secondarySupport.paperType2 !== null
             ) {
-                console.log('done')
                 setCheckedItemsSupportPaperType22(
                     Registratie.secondarySupport.paperType2,
                 )
@@ -920,7 +961,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.paperType3 !== undefined &&
                 Registratie.secondarySupport.paperType3 !== null
             ) {
-                console.log('done')
                 setCheckedItemsSupportPaperType32(
                     Registratie.secondarySupport.paperType3,
                 )
@@ -939,7 +979,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.assemblage !== undefined &&
                 Registratie.secondarySupport.assemblage !== null
             ) {
-                console.log('done')
                 setCheckedItemsAssemblage2(
                     Registratie.secondarySupport.assemblage,
                 )
@@ -955,7 +994,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.rectoVerso !== undefined &&
                 Registratie.secondarySupport.rectoVerso !== null
             ) {
-                console.log('done')
                 setCheckedItemsVerso2(Registratie.secondarySupport.rectoVerso)
                 checkedItemsVerso2SetSetted(false)
             }
@@ -969,7 +1007,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.watermark !== undefined &&
                 Registratie.secondarySupport.watermark !== null
             ) {
-                console.log('done')
                 setCheckedItemsWatermark2(
                     Registratie.secondarySupport.watermark,
                 )
@@ -985,7 +1022,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.pinholed !== undefined &&
                 Registratie.secondarySupport.pinholed !== null
             ) {
-                console.log('done')
                 setCheckedItemsPinholes2(Registratie.secondarySupport.pinholed)
                 checkedItemsPinholes2SetSetted(false)
             }
@@ -999,7 +1035,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.generalCondition !== undefined &&
                 Registratie.secondarySupport.generalCondition !== null
             ) {
-                console.log('done')
                 setCheckedItemsCondition2(
                     Registratie.secondarySupport.generalCondition,
                 )
@@ -1018,7 +1053,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.surface !== undefined &&
                 Registratie.secondarySupport.surface !== null
             ) {
-                console.log('done')
                 setCheckedItemsSurface2(Registratie.secondarySupport.surface)
                 checkedItemsSurface2SetSetted(false)
             }
@@ -1298,7 +1332,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.pictorial.fixative !== undefined &&
                 Registratie.primarySupport.pictorial.fixative !== null
             ) {
-                console.log('done')
                 setCheckedPictorialFixative1(
                     Registratie.primarySupport.pictorial.fixative,
                 )
@@ -1360,7 +1393,6 @@ function SchadeRapportEditor() {
                     undefined &&
                 Registratie.primarySupport.pictorial.generalCondition !== null
             ) {
-                console.log('done')
                 setCheckedPictorialCondition1(
                     Registratie.primarySupport.pictorial.generalCondition,
                 )
@@ -1379,7 +1411,6 @@ function SchadeRapportEditor() {
                 Registratie.primarySupport.pictorial.surface !== undefined &&
                 Registratie.primarySupport.pictorial.surface !== null
             ) {
-                console.log('done')
                 setCheckedPictorialSurface1(
                     Registratie.primarySupport.pictorial.surface,
                 )
@@ -1501,7 +1532,7 @@ function SchadeRapportEditor() {
             checkedItems: checkedPictorialTechnique1,
             setCheckedItems: setCheckedPictorialTechnique1,
         },
-        { label: 'remarks', name: 'remarksDescription', type: 'textarea' },
+        { label: 'remarks', name: 'remarksDescription', type: 'textBox' },
         {
             label: 'general condition',
             name: 'generalCondition',
@@ -1629,7 +1660,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.pictorial.fixative !== undefined &&
                 Registratie.secondarySupport.pictorial.fixative !== null
             ) {
-                console.log('done')
                 setCheckedPictorialFixative2(
                     Registratie.secondarySupport.pictorial.fixative,
                 )
@@ -1694,7 +1724,6 @@ function SchadeRapportEditor() {
                     undefined &&
                 Registratie.secondarySupport.pictorial.generalCondition !== null
             ) {
-                console.log('done')
                 setCheckedPictorialCondition2(
                     Registratie.secondarySupport.pictorial.generalCondition,
                 )
@@ -1713,7 +1742,6 @@ function SchadeRapportEditor() {
                 Registratie.secondarySupport.pictorial.surface !== undefined &&
                 Registratie.secondarySupport.pictorial.surface !== null
             ) {
-                console.log('done')
                 setCheckedPictorialSurface2(
                     Registratie.secondarySupport.pictorial.surface,
                 )
@@ -1838,7 +1866,7 @@ function SchadeRapportEditor() {
             checkedItems: checkedPictorialTechnique2,
             setCheckedItems: setCheckedPictorialTechnique2,
         },
-        { label: 'remarks', name: 'remarksDescription', type: 'textarea' },
+        { label: 'remarks', name: 'remarksDescription', type: 'textBox' },
         {
             label: 'general condition',
             name: 'generalCondition',
@@ -1929,7 +1957,6 @@ function SchadeRapportEditor() {
                 Registratie.mounting.nature !== undefined &&
                 Registratie.mounting.nature !== null
             ) {
-                console.log('done')
                 setCheckedItemsNature(Registratie.mounting.nature)
                 checkedItemsNatureSetSetted(false)
             }
@@ -1943,7 +1970,6 @@ function SchadeRapportEditor() {
                 Registratie.mounting.assemblage !== undefined &&
                 Registratie.mounting.assemblage !== null
             ) {
-                console.log('done')
                 setCheckedItemsAssemblage(Registratie.mounting.assemblage)
                 checkedItemsAssemblageSetSetted(false)
             }
@@ -1957,7 +1983,6 @@ function SchadeRapportEditor() {
                 Registratie.mounting.generalCondition !== undefined &&
                 Registratie.mounting.generalCondition !== null
             ) {
-                console.log('done')
                 setCheckedItemsCondition(Registratie.mounting.generalCondition)
                 checkedItemsConditionSetSetted(false)
             }
@@ -1971,7 +1996,6 @@ function SchadeRapportEditor() {
                 Registratie.mounting.surface !== undefined &&
                 Registratie.mounting.surface !== null
             ) {
-                console.log('done')
                 setCheckedItemsSurface(Registratie.mounting.surface)
                 checkedItemsSurfaceSetSetted(false)
             }
@@ -2266,6 +2290,663 @@ function SchadeRapportEditor() {
         }))
     }
 
+    // framing section
+
+    useState(true)
+    const [checkedItemsRabbetAccessible, setCheckedItemsRabbetAccessible] =
+        useState('')
+    const [
+        checkedItemsRabbetAccessibleSetted,
+        checkedItemsRabbetAccessibleSetSetted,
+    ] = useState(true)
+    const [checkedItemsInnerSpacers1, setCheckedItemsInnerSpacers1] =
+        useState('')
+    const [
+        checkedItemsInnerSpacers1Setted,
+        checkedItemsInnerSpacers1SetSetted,
+    ] = useState(true)
+    const [checkedItemsInnerSpacers2, setCheckedItemsInnerSpacers2] =
+        useState('')
+    const [
+        checkedItemsInnerSpacers2Setted,
+        checkedItemsInnerSpacers2SetSetted,
+    ] = useState(true)
+    const [checkedItemsBackingBoard1, setCheckedItemsBackingBoard1] =
+        useState('')
+    const [
+        checkedItemsBackingBoard1Setted,
+        checkedItemsBackingBoard1SetSetted,
+    ] = useState(true)
+    const [checkedItemsBackingBoard2, setCheckedItemsBackingBoard2] =
+        useState('')
+    const [
+        checkedItemsBackingBoard2Setted,
+        checkedItemsBackingBoard2SetSetted,
+    ] = useState(true)
+    const [checkedItemsSealing, setCheckedItemsSealing] = useState('')
+    const [checkedItemsSealingSetted, checkedItemsSealingSetSetted] =
+        useState(true)
+    const [checkedItemsHangingSystem, setCheckedItemsHangingSystem] =
+        useState('')
+    const [
+        checkedItemsHangingSystemSetted,
+        checkedItemsHangingSystemSetSetted,
+    ] = useState(true)
+    const [checkedItemsFramingMaterial, setCheckedItemsFramingMaterial] =
+        useState('')
+    const [
+        checkedItemsFramingMaterialSetted,
+        checkedItemsFramingMaterialSetSetted,
+    ] = useState(true)
+    const [checkedItemsFramingAssemblage, setCheckedItemsFramingAssemblage] =
+        useState('')
+    const [
+        checkedItemsFramingAssemblageSetted,
+        checkedItemsFramingAssemblageSetSetted,
+    ] = useState(true)
+    const [checkedItemsOriginalFraming, setCheckedItemsOriginalFraming] =
+        useState('')
+    const [
+        checkedItemsOriginalFramingSetted,
+        checkedItemsOriginalFramingSetSetted,
+    ] = useState(true)
+
+    const [checkedItemsFramingSurface, setCheckedItemsFramingSurface] =
+        useState('')
+    const [
+        checkedItemsFramingSurfaceSetted,
+        checkedItemsFramingSurfaceSetSetted,
+    ] = useState(true)
+    const [checkedItemsMechanicalProblems, setCheckedItemsMechanicalProblems] =
+        useState([])
+    const [
+        checkedItemsMechanicalProblemsSetted,
+        checkedItemsMechanicalProblemsSetSetted,
+    ] = useState(true)
+    const [checkedItemsChemicalProblems, setCheckedItemsChemicalProblems] =
+        useState([])
+    const [
+        checkedItemsChemicalProblemsSetted,
+        checkedItemsChemicalProblemsSetSetted,
+    ] = useState(true)
+    const [checkedItemsBiologicalProblems, setCheckedItemsBiologicalProblems] =
+        useState([])
+    const [
+        checkedItemsBiologicalProblemsSetted,
+        checkedItemsBiologicalProblemsSetSetted,
+    ] = useState(true)
+    const [checkedItemsAestheticProblems, setCheckedItemsAestheticProblems] =
+        useState([])
+    const [
+        checkedItemsAestheticProblemsSetted,
+        checkedItemsAestheticProblemsSetSetted,
+    ] = useState(true)
+
+    useEffect(() => {
+        if (checkedItemsRabbetAccessibleSetted) {
+            if (
+                Registratie.framing.rabbetAccessible !== '' &&
+                Registratie.framing.rabbetAccessible !== undefined &&
+                Registratie.framing.rabbetAccessible !== null
+            ) {
+                setCheckedItemsRabbetAccessible(
+                    Registratie.framing.rabbetAccessible,
+                )
+                checkedItemsRabbetAccessibleSetSetted(false)
+            }
+        }
+    }, [
+        Registratie.framing.rabbetAccessible,
+        checkedItemsRabbetAccessibleSetted,
+    ])
+
+    useEffect(() => {
+        if (checkedItemsInnerSpacers1Setted) {
+            if (
+                Registratie.framing.innerSpacers1 !== '' &&
+                Registratie.framing.innerSpacers1 !== undefined &&
+                Registratie.framing.innerSpacers1 !== null
+            ) {
+                setCheckedItemsInnerSpacers1(Registratie.framing.innerSpacers1)
+                checkedItemsInnerSpacers1SetSetted(false)
+            }
+        }
+    }, [Registratie.framing.innerSpacers1, checkedItemsInnerSpacers1Setted])
+
+    useEffect(() => {
+        if (checkedItemsInnerSpacers2Setted) {
+            if (
+                Registratie.framing.innerSpacers2 !== '' &&
+                Registratie.framing.innerSpacers2 !== undefined &&
+                Registratie.framing.innerSpacers2 !== null
+            ) {
+                setCheckedItemsInnerSpacers2(Registratie.framing.innerSpacers2)
+                checkedItemsInnerSpacers2SetSetted(false)
+            }
+        }
+    }, [Registratie.framing.innerSpacers2, checkedItemsInnerSpacers2Setted])
+
+    useEffect(() => {
+        if (checkedItemsBackingBoard1Setted) {
+            if (
+                Registratie.framing.backingBoard1 !== '' &&
+                Registratie.framing.backingBoard1 !== undefined &&
+                Registratie.framing.backingBoard1 !== null
+            ) {
+                setCheckedItemsBackingBoard1(Registratie.framing.backingBoard1)
+                checkedItemsBackingBoard1SetSetted(false)
+            }
+        }
+    }, [Registratie.framing.backingBoard1, checkedItemsBackingBoard1Setted])
+
+    useEffect(() => {
+        if (checkedItemsBackingBoard2Setted) {
+            if (
+                Registratie.framing.backingBoard2 !== '' &&
+                Registratie.framing.backingBoard2 !== undefined &&
+                Registratie.framing.backingBoard2 !== null
+            ) {
+                setCheckedItemsBackingBoard2(Registratie.framing.backingBoard2)
+                checkedItemsBackingBoard2SetSetted(false)
+            }
+        }
+    }, [Registratie.framing.backingBoard2, checkedItemsBackingBoard2Setted])
+
+    useEffect(() => {
+        if (checkedItemsSealingSetted) {
+            if (
+                Registratie.framing.sealing !== '' &&
+                Registratie.framing.sealing !== undefined &&
+                Registratie.framing.sealing !== null
+            ) {
+                setCheckedItemsSealing(Registratie.framing.sealing)
+                checkedItemsSealingSetSetted(false)
+            }
+        }
+    }, [Registratie.framing.sealing, checkedItemsSealingSetted])
+
+    useEffect(() => {
+        if (checkedItemsHangingSystemSetted) {
+            if (
+                Registratie.framing.hangingSystem !== '' &&
+                Registratie.framing.hangingSystem !== undefined &&
+                Registratie.framing.hangingSystem !== null
+            ) {
+                setCheckedItemsHangingSystem(Registratie.framing.hangingSystem)
+                checkedItemsHangingSystemSetSetted(false)
+            }
+        }
+    }, [Registratie.framing.hangingSystem, checkedItemsHangingSystemSetted])
+
+    useEffect(() => {
+        if (checkedItemsFramingMaterialSetted) {
+            if (
+                Registratie.framing.material !== '' &&
+                Registratie.framing.material !== undefined &&
+                Registratie.framing.material !== null
+            ) {
+                setCheckedItemsFramingMaterial(Registratie.framing.material)
+                checkedItemsFramingMaterialSetSetted(false)
+            }
+        }
+    }, [Registratie.framing.material, checkedItemsFramingMaterialSetted])
+
+    useEffect(() => {
+        if (checkedItemsFramingAssemblageSetted) {
+            if (
+                Registratie.framing.assemblage !== '' &&
+                Registratie.framing.assemblage !== undefined &&
+                Registratie.framing.assemblage !== null
+            ) {
+                setCheckedItemsFramingAssemblage(Registratie.framing.assemblage)
+                checkedItemsFramingAssemblageSetSetted(false)
+            }
+        }
+    }, [Registratie.framing.assemblage, checkedItemsFramingAssemblageSetted])
+
+    useEffect(() => {
+        if (checkedItemsOriginalFramingSetted) {
+            if (
+                Registratie.framing.originalFraming !== '' &&
+                Registratie.framing.originalFraming !== undefined &&
+                Registratie.framing.originalFraming !== null
+            ) {
+                setCheckedItemsOriginalFraming(
+                    Registratie.framing.originalFraming,
+                )
+                checkedItemsOriginalFramingSetSetted(false)
+            }
+        }
+    }, [Registratie.framing.originalFraming, checkedItemsOriginalFramingSetted])
+
+    useEffect(() => {
+        if (checkedItemsFramingSurfaceSetted) {
+            if (
+                Registratie.framing.surface !== '' &&
+                Registratie.framing.surface !== undefined &&
+                Registratie.framing.surface !== null
+            ) {
+                setCheckedItemsFramingSurface(Registratie.framing.surface)
+                checkedItemsFramingSurfaceSetSetted(false)
+            }
+        }
+    }, [Registratie.framing.surface, checkedItemsFramingSurfaceSetted])
+
+    useEffect(() => {
+        if (checkedItemsMechanicalProblemsSetted) {
+            if (
+                Registratie.framing.mechanicalProblems.length !== 0 &&
+                Registratie.framing.mechanicalProblems.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedItemsMechanicalProblems(
+                    Registratie.framing.mechanicalProblems,
+                )
+                checkedItemsMechanicalProblemsSetSetted(false)
+            }
+        }
+    }, [
+        Registratie.framing.mechanicalProblems,
+        checkedItemsMechanicalProblemsSetted,
+    ])
+
+    useEffect(() => {
+        if (checkedItemsBiologicalProblemsSetted) {
+            if (
+                Registratie.framing.biologicalProblems.length !== 0 &&
+                Registratie.framing.biologicalProblems.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedItemsBiologicalProblems(
+                    Registratie.framing.biologicalProblems,
+                )
+                checkedItemsBiologicalProblemsSetSetted(false)
+            }
+        }
+    }, [
+        Registratie.framing.biologicalProblems,
+        checkedItemsBiologicalProblemsSetted,
+    ])
+
+    useEffect(() => {
+        if (checkedItemsChemicalProblemsSetted) {
+            if (
+                Registratie.framing.chemicalProblems.length !== 0 &&
+                Registratie.framing.chemicalProblems.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedItemsChemicalProblems(
+                    Registratie.framing.chemicalProblems,
+                )
+                checkedItemsChemicalProblemsSetSetted(false)
+            }
+        }
+    }, [
+        Registratie.framing.chemicalProblems,
+        checkedItemsChemicalProblemsSetted,
+    ])
+
+    useEffect(() => {
+        if (checkedItemsAestheticProblemsSetted) {
+            if (
+                Registratie.framing.aestheticProblems.length !== 0 &&
+                Registratie.framing.aestheticProblems.every(function (v) {
+                    return v === null
+                }) !== true
+            ) {
+                setCheckedItemsAestheticProblems(
+                    Registratie.framing.aestheticProblems,
+                )
+                checkedItemsAestheticProblemsSetSetted(false)
+            }
+        }
+    }, [
+        Registratie.framing.aestheticProblems,
+        checkedItemsAestheticProblemsSetted,
+    ])
+
+    useEffect(() => {
+        Registratie.framing.rabbetAccessible = checkedItemsRabbetAccessible
+    }, [checkedItemsRabbetAccessible, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.innerSpacers1 = checkedItemsInnerSpacers1
+    }, [checkedItemsInnerSpacers1, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.innerSpacers2 = checkedItemsInnerSpacers2
+    }, [checkedItemsInnerSpacers2, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.backingBoard1 = checkedItemsBackingBoard1
+    }, [checkedItemsBackingBoard1, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.backingBoard2 = checkedItemsBackingBoard2
+    }, [checkedItemsBackingBoard2, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.sealing = checkedItemsSealing
+    }, [checkedItemsSealing, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.hangingSystem = checkedItemsHangingSystem
+    }, [checkedItemsHangingSystem, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.material = checkedItemsFramingMaterial
+    }, [checkedItemsFramingMaterial, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.assemblage = checkedItemsFramingAssemblage
+    }, [checkedItemsFramingAssemblage, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.originalFraming = checkedItemsOriginalFraming
+    }, [checkedItemsOriginalFraming, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.surface = checkedItemsFramingSurface
+    }, [checkedItemsFramingSurface, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.mechanicalProblems = checkedItemsMechanicalProblems
+    }, [checkedItemsMechanicalProblems, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.chemicalProblems = checkedItemsChemicalProblems
+    }, [checkedItemsChemicalProblems, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.biologicalProblems = checkedItemsBiologicalProblems
+    }, [checkedItemsBiologicalProblems, Registratie.framing])
+
+    useEffect(() => {
+        Registratie.framing.aestheticProblems = checkedItemsAestheticProblems
+    }, [checkedItemsAestheticProblems, Registratie.framing])
+
+    const framingForm = [
+        { name: 'height', label: 'height', type: 'number' },
+        { name: 'width', label: 'width', type: 'number' },
+        { name: 'depth', label: 'depth', type: 'number' },
+        { name: 'shape', label: 'shape', type: 'text' },
+        {
+            name: 'appertureFrameHeight',
+            label: 'apperture frame height',
+            type: 'number',
+        },
+        {
+            name: 'apertureFrameWidth',
+            label: 'apperture frame width',
+            type: 'number',
+        },
+        {
+            name: 'apretureMountHeight',
+            label: 'apperture mount height',
+            type: 'number',
+        },
+        {
+            name: 'apertureMountWidth',
+            label: 'apperture mount width',
+            type: 'number',
+        },
+        {
+            name: 'maxPaintingDimensionsHeight',
+            label: 'Maximum pastel painting dimensions height',
+            type: 'number',
+        },
+        {
+            name: 'maxPaintingDimensionsWidth',
+            label: 'Maximum pastel painting dimensions width',
+            type: 'number',
+        },
+        {
+            label: 'Rabbet accessible',
+            name: 'rabbetAccessible',
+            type: 'radio',
+            checkedItems: checkedItemsRabbetAccessible,
+            setCheckedItems: setCheckedItemsRabbetAccessible,
+            options: ['Accessible', 'Not accessible'],
+        },
+        { name: 'rabbetHeight', label: 'rabbet height', type: 'number' },
+        { name: 'rabbetWidth', label: 'rabbet width', type: 'number' },
+        { name: 'rabbetDepth', label: 'rabbet depth', type: 'number' },
+        {
+            name: 'innerSpacersHeight',
+            label: 'inner spacers height',
+            type: 'number',
+        },
+        {
+            name: 'innerSpacersWidth',
+            label: 'inner spacers width',
+            type: 'number',
+        },
+        {
+            name: 'innerSpacersDepth',
+            label: 'inner spacers depth',
+            type: 'number',
+        },
+        {
+            name: 'externalRisingSticksHeight',
+            label: 'external rising sticks height',
+            type: 'number',
+        },
+        {
+            name: 'externalRisingSticksWidth',
+            label: 'external rising sticks width',
+            type: 'number',
+        },
+        {
+            name: 'externalRisingSticksDepth',
+            label: 'external rising sticks depth',
+            type: 'number',
+        },
+        {
+            name: 'dimensionRemarks',
+            label: 'dimension Remarks',
+            type: 'textBox',
+        },
+        { name: 'mouldingMaterial', label: 'moulding material', type: 'text' },
+        {
+            name: 'mouldingAssemblage',
+            label: 'moulding assemblage',
+            type: 'text',
+        },
+        {
+            name: 'raisingSticksMaterial',
+            label: 'raising sticks material',
+            type: 'text',
+        },
+        {
+            name: 'raisingSticksAssemblage',
+            label: 'raising sticks assemblage',
+            type: 'text',
+        },
+        {
+            name: 'innerSpacers1',
+            label: 'inner spacers 1',
+            type: 'radio',
+            options: ['Wood', 'Cork', 'Cardboard'],
+            checkedItems: checkedItemsInnerSpacers1,
+            setCheckedItems: setCheckedItemsInnerSpacers1,
+        },
+        {
+            name: 'innerSpacers2',
+            label: 'inner spacers 2',
+            type: 'radio',
+            checkedItems: checkedItemsInnerSpacers2,
+            setCheckedItems: setCheckedItemsInnerSpacers2,
+            options: [
+                'Unknown',
+                'Glued to the rabbet/pastel',
+                'Loose',
+                'Nailed in the rabbet',
+                'Metallic clips',
+                'Passe-partout',
+                'Other assemblage',
+            ],
+        },
+        {
+            name: 'backingBoard1',
+            label: 'backing board 1',
+            type: 'radio',
+            options: ['Wood', 'Metal', 'Cardboard'],
+            checkedItems: checkedItemsBackingBoard1,
+            setCheckedItems: setCheckedItemsBackingBoard1,
+        },
+        {
+            name: 'backingBoard2',
+            label: 'backing board 2',
+            type: 'radio',
+            options: [
+                'Screwed',
+                'Framing staples in rabbet',
+                'Fraiming points in the rabbet',
+                'Nailed',
+                'Taped',
+                'Glued',
+            ],
+            checkedItems: checkedItemsBackingBoard2,
+            setCheckedItems: setCheckedItemsBackingBoard2,
+        },
+        {
+            name: 'sealing',
+            label: 'sealing',
+            type: 'radio',
+            options: [
+                'Paper strips',
+                'Frame sealing tape',
+                'Auto-adhesive tape',
+            ],
+            checkedItems: checkedItemsSealing,
+            setCheckedItems: setCheckedItemsSealing,
+        },
+        {
+            name: 'hangingSystem',
+            label: 'hanging system',
+            type: 'radio',
+            options: ['One', 'Multiple'],
+            checkedItems: checkedItemsHangingSystem,
+            setCheckedItems: setCheckedItemsHangingSystem,
+        },
+        { name: 'indicators', label: 'indicators', type: 'text' },
+        {
+            name: 'descriptionRemarks',
+            label: 'description remarks',
+            type: 'textBox',
+        },
+        {
+            name: 'material',
+            label: 'material',
+            type: 'radio',
+            options: [
+                'Old glass',
+                'Laminated',
+                'UV protection',
+                'New glass',
+                'Plexiglass/Acrylic',
+                'Material uncertain',
+            ],
+            checkedItems: checkedItemsFramingMaterial,
+            setCheckedItems: setCheckedItemsFramingMaterial,
+        },
+        {
+            name: 'assemblage',
+            label: 'assemblage',
+            type: 'radio',
+            options: ['Unknown', 'Gummed paper strips'],
+            checkedItems: checkedItemsFramingAssemblage,
+            setCheckedItems: setCheckedItemsFramingAssemblage,
+        },
+        { name: 'glazingHeight', label: 'height', type: 'number' },
+        { name: 'glazingWidth', label: 'width', type: 'number' },
+        {
+            name: 'glazingEstimation',
+            label: 'Estimation of space between artwork and glazing (mm)',
+            type: 'number',
+        },
+        { name: 'glazingRemarks', label: 'remarks', type: 'textBox' },
+        {
+            name: 'originalFraming',
+            label: 'Original framing or mounting?',
+            type: 'radio',
+            options: ['Unknown', 'Yes', 'Probably', 'No'],
+            checkedItems: checkedItemsOriginalFraming,
+            setCheckedItems: setCheckedItemsOriginalFraming,
+        },
+        { name: 'historyIndicators', label: 'indicators', type: 'text' },
+        { name: 'labelsAmount', label: 'amount of labels', type: 'number' },
+        { name: 'historyDescription', label: 'remarks', type: 'textBox' },
+        {
+            name: 'surface',
+            label: 'surface',
+            type: 'radio',
+            options: ['Dust', 'Dirt', 'Appears clean'],
+            checkedItems: checkedItemsFramingSurface,
+            setCheckedItems: setCheckedItemsFramingSurface,
+        },
+        {
+            name: 'mechanicalProblems',
+            label: 'mechanical problems',
+            type: 'checkBox',
+            options: [
+                'None',
+                'Deformation',
+                'Structural failure',
+                'Loss',
+                'Wrinkling',
+                'Loose elements',
+                'Former treatments',
+            ],
+            checkedItems: checkedItemsMechanicalProblems,
+            setCheckedItems: setCheckedItemsMechanicalProblems,
+        },
+        {
+            name: 'chemicalProblems',
+            label: 'chemical problems',
+            type: 'checkBox',
+            options: ['None', 'Rusty material(s)', 'Acidic material(s)'],
+            checkedItems: checkedItemsChemicalProblems,
+            setCheckedItems: setCheckedItemsChemicalProblems,
+        },
+        {
+            name: 'biologicalProblems',
+            label: 'biological problems',
+            type: 'checkBox',
+            options: [
+                'Mold active',
+                'Mold non-active',
+                'Insect damage active',
+                'Insect damage non-active',
+                'None',
+            ],
+            checkedItems: checkedItemsBiologicalProblems,
+            setCheckedItems: setCheckedItemsBiologicalProblems,
+        },
+        {
+            name: 'aestethicProblems',
+            label: 'aestethic problems',
+            type: 'checkBox',
+            options: ['Loss', 'Guidling missing', 'None'],
+            checkedItems: checkedItemsAestheticProblems,
+            setCheckedItems: setCheckedItemsAestheticProblems,
+        },
+    ]
+
+    const handleFramingChange = (event) => {
+        const { name, value } = event.target
+        setRegistratie((prevRegistratie) => ({
+            ...prevRegistratie,
+            framing: {
+                ...prevRegistratie.framing,
+                [name]: value,
+            },
+        }))
+    }
+
     const [page, setPage] = useState(0)
     const [otherValues, setOtherValues] = useState(
         Array.from({ length: 8 }, () => ''),
@@ -2280,6 +2961,9 @@ function SchadeRapportEditor() {
     const [otherValuesSecondaryPictorial, setOtherValuesSecondaryPictorial] =
         useState(Array.from({ length: 8 }, () => ''))
     const [otherValuesMounting, setOtherValuesMounting] = useState(
+        Array.from({ length: 8 }, () => ''),
+    )
+    const [otherValuesFraming, setOtherValuesFraming] = useState(
         Array.from({ length: 8 }, () => ''),
     )
 
@@ -2318,8 +3002,8 @@ function SchadeRapportEditor() {
                     </a>
                 </div>
             </Modal>
-            <div className="w-full flex flex-wrap">
-                <div className="w-1/2  pt-20 pb-28">
+            <div className="w-full md:w-1/2 flex flex-wrap">
+                <div className="w-full  pt-20 pb-48">
                     {page === 0 ? (
                         <AutomaticForm
                             fields={registrationForm}
@@ -2454,6 +3138,14 @@ function SchadeRapportEditor() {
                             otherValues={otherValuesMounting}
                             setOtherValues={setOtherValuesMounting}
                         />
+                    ) : page === 8 ? (
+                        <AutomaticForm
+                            fields={framingForm}
+                            handleChange={handleFramingChange}
+                            formData={Registratie.framing}
+                            otherValues={otherValuesFraming}
+                            setOtherValues={setOtherValuesFraming}
+                        />
                     ) : (
                         <textarea
                             value={Registratie.remarks}
@@ -2462,7 +3154,7 @@ function SchadeRapportEditor() {
                             placeholder="Remarks"
                         ></textarea>
                     )}
-                    <div className="fixed bottom-0 pb-6 pt-4 w-1/2 flex justify-center bg-white border-t-2">
+                    <div className="fixed bottom-0 pb-6 pt-4 w-full md:w-1/2 flex justify-center bg-white border-t-2">
                         <div className="flex justify-between w-9/12 flex-wrap items-center">
                             <div
                                 onClick={() => setPage(0)}
@@ -2543,6 +3235,16 @@ function SchadeRapportEditor() {
                                 }`}
                             >
                                 Mounting
+                            </div>
+                            <div
+                                onClick={() => setPage(8)}
+                                className={`underline cursor-pointer mt-2 ${
+                                    page === 8
+                                        ? 'font-bold opacity-100'
+                                        : 'opacity-50'
+                                }`}
+                            >
+                                Framing
                             </div>
                             <div
                                 onClick={() => setPage(8)}

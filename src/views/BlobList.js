@@ -34,7 +34,6 @@ function BlobList() {
     }
 
     const { post, refresh } = useGetBlobList()
-    console.log(post)
     return (
         <>
             <Modal

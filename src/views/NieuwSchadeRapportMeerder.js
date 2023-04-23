@@ -3,15 +3,33 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import DynamicForm from '../components/DynamicForm'
 import useGetHeightAndWidth from '../hooks/UseGetHeightAndWidth'
-import useAddManifest from '../hooks/useAddManifest'
+import useAddMultipleManifest from '../hooks/useAddMultipleManifest'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+function NieuwSchaderapportMeerdere(props) {
+    const location = useLocation()
+    const [height, setHeight] = useState([])
+    const [width, setWidth] = useState([])
+    useEffect(() => {
+        for (let i of location.state.names) {
+            const { height, width } = fetch(
+                'http://localhost:8182/iiif/2/' + i + '/info.json',
+            )
+                .then((response) => response.json())
+                .then((json) => {
+                    setHeight((prevHeight) => [...prevHeight, json.height])
+                    setWidth((prevWidth) => [...prevWidth, json.width])
+                })
+        }
+        //eslint-disable-next-line
+    }, [])
 
-function NieuwSchaderapport() {
-    const { url } = useParams()
-    useEffect(() => console.log(url), [url])
-    const { height, width } = useGetHeightAndWidth(url)
-    const postmanifest = useAddManifest()
+    useEffect(() => {
+        console.log(height, width)
+    }, [height, width])
+
+    const postmanifest = useAddMultipleManifest()
     const [response, setResponse] = useState(false)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -20,7 +38,10 @@ function NieuwSchaderapport() {
         event.preventDefault()
         formData['height'] = height
         formData['width'] = width
-        formData['imagelink'] = 'http://localhost:8182/iiif/2/' + url
+        formData['label'] = formData['label'].split(',')
+        formData['imagelink'] = location.state.names.map(
+            (e) => 'http://localhost:8182/iiif/2/' + e,
+        )
         postmanifest(formData, setResponse)
         setLoading(true)
         setTimeout(() => {
@@ -28,7 +49,7 @@ function NieuwSchaderapport() {
         }, 1000)
     }
 
-    const fields = [
+    const fields = [    
         { name: 'label', label: 'label', type: 'text' },
         { name: 'date', label: 'date', type: 'text' },
         { name: 'classification', label: 'classificatie', type: 'text' },
@@ -50,7 +71,7 @@ function NieuwSchaderapport() {
                             className="h-96"
                             src={
                                 'http://localhost:8182/iiif/2/' +
-                                url +
+                                location.state.names[0] +
                                 '/full/max/0/default.jpg'
                             }
                             alt="selected painting"
@@ -70,4 +91,4 @@ function NieuwSchaderapport() {
     )
 }
 
-export default NieuwSchaderapport
+export default NieuwSchaderapportMeerdere

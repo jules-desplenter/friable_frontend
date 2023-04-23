@@ -13,7 +13,6 @@ export default class AspNetAdapter {
         info = info.replace("context.json", "")
         info = info.split('/')
         info = info.slice(-3)
-        console.log(info)
         // return `${this.endpointUrl}/${info[0]}/${info[1]}/${info[2]}`
         return `https://localhost:7148/api/manifest/${info[0]}/page/p2/1`
     }
@@ -35,7 +34,6 @@ export default class AspNetAdapter {
             method: 'POST',
         })
             .then((response) => {
-                console.log(response)
                 return this.all()
             })
             .catch(() => this.all())
@@ -70,7 +68,6 @@ export default class AspNetAdapter {
 
     /** */
     async delete(annoId) {
-        console.log(this.annotationPageId, 'cool')
         let info = this.canvasId
         // prettier-ignore
         info = info.replace("context.json", "")

@@ -4,6 +4,8 @@ import ErrorPage from './views/errorpage'
 import Home from './views/Home'
 import BlobList from './views/BlobList'
 import NieuwSchaderapport from './views/NieuwSchaderapport'
+import NieuwSchaderapportMeerdere from './views/NieuwSchadeRapportMeerder'
+
 import SchadeRapportEditor from './views/SchadeRapportEditor'
 
 function App() {
@@ -21,6 +23,11 @@ function App() {
         {
             path: '/nieuwschade/:url',
             element: <NieuwSchaderapport />,
+            errorElement: <ErrorPage />,
+        },
+        {
+            path: '/nieuwschademeer',
+            element: <NieuwSchaderapportMeerdere />,
             errorElement: <ErrorPage />,
         },
         {

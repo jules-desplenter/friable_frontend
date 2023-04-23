@@ -16,7 +16,6 @@ const AutomaticForm = ({
     )
 
     useEffect(() => {
-        console.log('jopei')
         for (let i in fields) {
             if (fields[i].type === 'checkBox') {
                 if (otherValues[i] === '' || otherValues[i] === undefined) {
@@ -61,7 +60,6 @@ const AutomaticForm = ({
     }
 
     const handleRadioChange = (event, checkedItems, setCheckedItems, index) => {
-        console.log(index)
         refs[index].current.value = ''
         setCheckedItems(event.target.value)
     }

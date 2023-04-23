@@ -20,7 +20,6 @@ const FileUpload = (props) => {
                     'Content-Type': 'multipart/form-data',
                 },
             })
-            console.log(response.data)
             setTimeout(() => {
                 props.refresh()
             }, 1000)

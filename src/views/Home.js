@@ -10,7 +10,6 @@ import TableRegistration from '../components/TableRegistration'
 function Home() {
     const manifest = useGetManifest()
     const { element } = useGetListRegistration()
-    console.log(manifest)
     return (
         <>
             <div className="w-full flex justify-center">
