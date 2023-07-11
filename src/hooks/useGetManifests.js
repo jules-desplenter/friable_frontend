@@ -5,7 +5,13 @@ const useGetManifest = () => {
     const [post, setPost] = useState(null)
 
     useEffect(() => {
-        axios.get('manifest').then((response) => {
+        axios.get('manifest',{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(
+                    'token',
+                )}`,
+            },
+        }).then((response) => {
             setPost(response.data)
         })
     }, [])

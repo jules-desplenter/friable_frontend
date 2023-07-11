@@ -9,7 +9,19 @@ function useGetListRegistration(id) {
     useEffect(() => {
         async function fetchElement() {
             try {
-                const response = await axios.get(`registration`)
+                const response = await axios.get(`registration`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token',
+                        )}`,
+                    },
+                },{
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token',
+                        )}`,
+                    },
+                })
                 setElement(response.data)
             } catch (error) {
                 setError(error)

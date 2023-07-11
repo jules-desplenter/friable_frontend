@@ -14,7 +14,9 @@ function NieuwSchaderapportMeerdere(props) {
     useEffect(() => {
         for (let i of location.state.names) {
             const { height, width } = fetch(
-                'http://localhost:8182/iiif/2/' + i + '/info.json',
+                'https://cantaloupe.greenbush-39a95729.francecentral.azurecontainerapps.io/iiif/2/' +
+                    i +
+                    '/info.json',
             )
                 .then((response) => response.json())
                 .then((json) => {
@@ -25,10 +27,6 @@ function NieuwSchaderapportMeerdere(props) {
         //eslint-disable-next-line
     }, [])
 
-    useEffect(() => {
-        console.log(height, width)
-    }, [height, width])
-
     const postmanifest = useAddMultipleManifest()
     const [response, setResponse] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -38,9 +36,11 @@ function NieuwSchaderapportMeerdere(props) {
         event.preventDefault()
         formData['height'] = height
         formData['width'] = width
-        formData['label'] = formData['label'].split(',')
+        formData['label'] = formData['objectNumber']
         formData['imagelink'] = location.state.names.map(
-            (e) => 'http://localhost:8182/iiif/2/' + e,
+            (e) =>
+                'https://cantaloupe.greenbush-39a95729.francecentral.azurecontainerapps.io/iiif/2/' +
+                e,
         )
         postmanifest(formData, setResponse)
         setLoading(true)
@@ -49,15 +49,11 @@ function NieuwSchaderapportMeerdere(props) {
         }, 1000)
     }
 
-    const fields = [    
-        { name: 'label', label: 'label', type: 'text' },
-        { name: 'date', label: 'date', type: 'text' },
-        { name: 'classification', label: 'classificatie', type: 'text' },
-        { name: 'objectNumber', label: 'objectnummmer', type: 'text' },
+    const fields = [
+        { name: 'objectNumber', label: 'Inventory number', type: 'text' },
+        { name: 'description', label: 'description', type: 'text' },
         { name: 'artist', label: 'artist', type: 'text' },
-        { name: 'medium', label: 'medium', type: 'text' },
-        { name: 'techniek', label: 'techniek', type: 'text' },
-        { name: 'provenance', label: 'provenance', type: 'textBox' },
+        { name: 'classification', label: 'classificatie', type: 'text' },
     ]
 
     return (
@@ -70,7 +66,7 @@ function NieuwSchaderapportMeerdere(props) {
                         <img
                             className="h-96"
                             src={
-                                'http://localhost:8182/iiif/2/' +
+                                'https://cantaloupe.greenbush-39a95729.francecentral.azurecontainerapps.io/iiif/2/' +
                                 location.state.names[0] +
                                 '/full/max/0/default.jpg'
                             }

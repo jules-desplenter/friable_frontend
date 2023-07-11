@@ -15,9 +15,10 @@ const FileUpload = (props) => {
         formData.append('file', selectedFile)
 
         try {
-            const response = await axios.post('blob', formData, {
+            await axios.post('blob', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             })
             setTimeout(() => {
@@ -32,7 +33,12 @@ const FileUpload = (props) => {
     return (
         <form onSubmit={handleSubmit}>
             <input type="file" onChange={handleFileChange} />
-            <button type="submit">Upload</button>
+            <button
+                type="submit"
+                className="bg-greenCustom rounded-2xl w-16 m-6 cursor-pointer text-white hover:bg-blackCustom"
+            >
+                Upload
+            </button>
         </form>
     )
 }

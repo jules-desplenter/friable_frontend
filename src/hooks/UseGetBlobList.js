@@ -5,7 +5,13 @@ const useGetBlobList = () => {
     const [post, setPost] = useState(null)
 
     const fetchBlobs = () => {
-        axios.get('blob').then((response) => {
+        axios.get('blob',{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(
+                    'token',
+                )}`,
+            },
+        }).then((response) => {
             setPost(response.data)
         })
     }

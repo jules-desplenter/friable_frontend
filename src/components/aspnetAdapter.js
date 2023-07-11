@@ -14,7 +14,7 @@ export default class AspNetAdapter {
         info = info.split('/')
         info = info.slice(-3)
         // return `${this.endpointUrl}/${info[0]}/${info[1]}/${info[2]}`
-        return `https://localhost:7148/api/manifest/${info[0]}/page/p2/1`
+        return `https://friablemongo20230424170902.azurewebsites.net/api/manifest/${info[0]}/page/p2/1`
     }
 
     /** */
@@ -30,6 +30,7 @@ export default class AspNetAdapter {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
             method: 'POST',
         })
@@ -58,6 +59,7 @@ export default class AspNetAdapter {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
                 method: 'POST',
             },
@@ -81,6 +83,7 @@ export default class AspNetAdapter {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
                 method: 'DELETE',
             },
@@ -113,6 +116,12 @@ export default class AspNetAdapter {
 
     /** */
     async all() {
-        return (await fetch(this.annotationPageId)).json()
+        return (
+            await fetch(this.annotationPageId, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+        ).json()
     }
 }

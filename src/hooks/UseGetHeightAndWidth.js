@@ -5,11 +5,18 @@ const useGetHeightAndWidth = (url) => {
     const [width, setWidth] = useState(null)
 
     useEffect(() => {
-        fetch('http://localhost:8182/iiif/2/' + url + '/info.json')
+        fetch(
+            'https://cantaloupe.greenbush-39a95729.francecentral.azurecontainerapps.io/iiif/2/' +
+                url +
+                '/info.json',
+        )
             .then((response) => response.json())
             .then((json) => {
                 setHeight(json.height)
                 setWidth(json.width)
+            })
+            .catch(function (err) {
+                console.info(err + ' url: ' + url)
             })
     }, [url])
 

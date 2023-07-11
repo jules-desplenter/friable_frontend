@@ -43,28 +43,14 @@ function SchadeRapportEditor() {
                 media: null,
                 value: null,
             },
-            inscriptions: [
-                {
-                    id: uuidv4(),
-                    text: null,
-                    location: null,
-                    media: null,
-                    value: null,
-                },
-            ],
-            collectionMarks: [
-                {
-                    id: uuidv4(),
-                    text: null,
-                    location: null,
-                    media: null,
-                    value: null,
-                },
-            ],
+            inscriptions: [],
+            collectionMarkAvailable: null,
+            collectionMarks: [],
             materials: null,
             techniques: null,
             support: null,
-            framed: null,
+            framed: [null],
+            framedSerialized: null,
             top: 0,
             right: 0,
             bottom: 0,
@@ -72,11 +58,12 @@ function SchadeRapportEditor() {
         },
         primarySupport: {
             id: uuidv4(),
+            based: null,
             material: [null],
             materialSerialized: null,
             paperType1: null,
             paperType2: null,
-            paperType3: null,
+            paperType3: [null],
             assemblage: null,
             rectoVerso: null,
             watermark: null,
@@ -87,7 +74,8 @@ function SchadeRapportEditor() {
             location: null,
             remarksDescription: null,
             generalCondition: null,
-            surface: null,
+            surface: [null],
+            surfaceSerialized: null,
             damage: [null],
             damageSerialized: null,
             remarksCondition: null,
@@ -96,13 +84,14 @@ function SchadeRapportEditor() {
                 friableMedia: [null],
                 friableMediaSerialized: null,
                 fixative: null,
+                fixativeIndicators: null,
                 otherMedia: [null],
                 otherMediaSerialized: null,
                 techniques: [null],
                 techniquesSerialized: null,
                 remarksDescription: null,
                 generalCondition: null,
-                surface: null,
+                surface: [null],
                 damage: [null],
                 damageSerialized: null,
                 remarksCondition: null,
@@ -110,6 +99,8 @@ function SchadeRapportEditor() {
         },
         secondarySupport: {
             id: uuidv4(),
+            supportAccessible: null,
+            based: null,
             material: [null],
             materialSerialized: null,
             paperType1: null,
@@ -125,22 +116,25 @@ function SchadeRapportEditor() {
             location: null,
             remarksDescription: null,
             generalCondition: null,
-            surface: null,
+            surface: [null],
             damage: [null],
             damageSerialized: null,
             remarksCondition: null,
+            attachment: null,
             pictorial: {
                 id: uuidv4(),
+                pictorialAccessible: null,
                 friableMedia: [null],
                 friableMediaSerialized: null,
                 fixative: null,
+                fixativeIndicators: null,
                 otherMedia: [null],
                 otherMediaSerialized: null,
                 techniques: [null],
                 techniquesSerialized: null,
                 remarksDescription: null,
                 generalCondition: null,
-                surface: null,
+                surface: [null],
                 damage: [null],
                 damageSerialized: null,
                 remarksCondition: null,
@@ -149,7 +143,7 @@ function SchadeRapportEditor() {
         storage: {
             id: uuidv4(),
             location: null,
-            locationNumber: 0,
+            locationNumber: null,
             storageType: null,
             material: [null],
             materialSerialized: null,
@@ -157,10 +151,10 @@ function SchadeRapportEditor() {
         },
         mounting: {
             id: uuidv4(),
-            nature: null,
-            assemblage: null,
+            nature: [null],
+            assemblage: [null],
             generalCondition: null,
-            surface: null,
+            surface: [null],
             damage: [null],
             damageSerialized: null,
             myProperty: null,
@@ -173,6 +167,7 @@ function SchadeRapportEditor() {
             width: 0,
             depth: 0,
             shape: null,
+            damageRelevant: null,
             appertureFrameHeight: 0,
             apertureFrameWidth: 0,
             apretureMountHeight: 0,
@@ -194,11 +189,11 @@ function SchadeRapportEditor() {
             mouldingAssemblage: null,
             raisingSticksMaterial: null,
             raisingSticksAssemblage: null,
-            innerSpacers1: null,
-            innerSpacers2: null,
-            backingBoard1: null,
-            backingBoard2: null,
-            sealing: null,
+            innerSpacers1: [null],
+            innerSpacers2: [null],
+            backingBoard1: [null],
+            backingBoard2: [null],
+            sealing: [null],
             hangingSystem: null,
             indicators: null,
             descriptionRemarks: null,
@@ -212,7 +207,7 @@ function SchadeRapportEditor() {
             historyIndicators: null,
             labelsAmount: 0,
             historyDescription: null,
-            surface: null,
+            surface: [null],
             mechanicalProblems: [null],
             mechanicalProblemsSerialized: null,
             chemicalProblems: [null],
@@ -223,6 +218,30 @@ function SchadeRapportEditor() {
             aestheticProblemsSerialized: null,
         },
     })
+    // const [Registratie, setRegistratie] = useState({})
+
+    // useEffect(() => {
+    //     const unloadCallback = (event) => {
+    //         const e = event || window.event
+    //         //console.log(e)
+    //         e.preventDefault()
+    //         if (e) {
+    //             console.log(e.originalEvent)
+    //             e.returnValue = 'normaal zou dit hier moeten komen niet?'
+    //         }
+    //         return ''
+    //     }
+
+    //     window.addEventListener('beforeunload', unloadCallback)
+    //     return () => {
+    //         //cleanup function
+    //         window.removeEventListener('beforeunload', unloadCallback)
+    //     }
+    // }, [])
+
+    window.onbeforeunload = () => {
+        return 'testmessage'
+    }
 
     useEffect(() => console.log(Registratie), [Registratie])
     const { loading, error, element } = useGetRegistration(objectid)
@@ -246,22 +265,54 @@ function SchadeRapportEditor() {
     const handleSubmit = () => {
         if (firstTime) {
             postRegistration(Registratie, setResponse)
-            setSubmitModal(true)
         } else {
             updateRegistration(Registratie, setResponse)
-            setSubmitModal(true)
         }
     }
 
-    useEffect(() => console.log(response), [response])
+    useEffect(() => {
+        console.log(response)
+        if (response) {
+            setSubmitModal(true)
+            setFirstTime(false)
+            setResponse()
+        }
+    }, [response])
 
     //registration section
+    const [checkedItemsReason, setCheckedItemsReason] = useState('')
+    const [checkedItemsReasonSetted, checkedItemsReasonSetSetted] =
+        useState(true)
+
+    useEffect(() => {
+        if (checkedItemsReasonSetted) {
+            if (
+                Registratie.reason !== '' &&
+                Registratie.reason !== undefined &&
+                Registratie.reason !== null
+            ) {
+                setCheckedItemsReason(Registratie.reason)
+                checkedItemsReasonSetSetted(false)
+            }
+        }
+    }, [Registratie.reason, checkedItemsReasonSetted])
+
+    useEffect(() => {
+        Registratie.reason = checkedItemsReason
+    }, [checkedItemsReason, Registratie])
 
     const registrationForm = [
         { label: 'name', name: 'name', type: 'text' },
         { label: 'function', name: 'function', type: 'text' },
-        { label: 'date', name: 'date', type: 'text' },
-        { label: 'reason for reporting', name: 'reason', type: 'text' },
+        { label: 'date', name: 'date', type: 'date' },
+        {
+            label: 'reason for reporting',
+            name: 'reason',
+            type: 'radio',
+            options: ['Friable project'],
+            checkedItems: checkedItemsReason,
+            setCheckedItems: setCheckedItemsReason,
+        },
     ]
 
     const handleRegistrationChange = (event) => {
@@ -273,16 +324,17 @@ function SchadeRapportEditor() {
     }
 
     // identification section
-    const [checkedItemsSupport, setCheckedItemsSupport] = useState('')
+    const [checkedItemsSupport, setCheckedItemsSupport] = useState([])
     const [checkedItemsSupportSetted, checkedItemsSupportSetSetted] =
         useState(true)
 
     useEffect(() => {
         if (checkedItemsSupportSetted) {
             if (
-                Registratie.identification.framed !== '' &&
-                Registratie.identification.framed !== undefined &&
-                Registratie.identification.framed !== null
+                Registratie.identification.framed.length !== 0 &&
+                Registratie.identification.framed.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsSupport(Registratie.identification.framed)
                 checkedItemsSupportSetSetted(false)
@@ -294,6 +346,32 @@ function SchadeRapportEditor() {
         Registratie.identification.framed = checkedItemsSupport
     }, [checkedItemsSupport, Registratie.identification])
 
+    const [checkedItemsIdentificationhape, setCheckedItemsIdentificationhape] =
+        useState('')
+    const [
+        checkedItemsIdentificationhapeSetted,
+        checkedItemsIdentificationhapeSetSetted,
+    ] = useState(true)
+
+    useEffect(() => {
+        if (checkedItemsIdentificationhapeSetted) {
+            if (
+                Registratie.identification.shape !== '' &&
+                Registratie.identification.shape !== undefined &&
+                Registratie.identification.shape !== null
+            ) {
+                setCheckedItemsIdentificationhape(
+                    Registratie.identification.shape,
+                )
+                checkedItemsIdentificationhapeSetSetted(false)
+            }
+        }
+    }, [Registratie.identification.shape, checkedItemsIdentificationhapeSetted])
+
+    useEffect(() => {
+        Registratie.identification.shape = checkedItemsIdentificationhape
+    }, [checkedItemsIdentificationhape, Registratie.identification])
+
     const IdentificationForm = [
         { label: 'inventory number', name: 'inventoryNumber', type: 'number' },
         { label: 'title dutch', name: 'titleDutch', type: 'text' },
@@ -304,7 +382,7 @@ function SchadeRapportEditor() {
         {
             name: 'framed',
             label: 'framed',
-            type: 'radio',
+            type: 'checkBox',
             options: ['unframed', 'possibly_previously_framed', 'framed'],
             checkedItems: checkedItemsSupport,
             setCheckedItems: setCheckedItemsSupport,
@@ -312,11 +390,19 @@ function SchadeRapportEditor() {
         },
         { label: 'height (mm)', name: 'height', type: 'number' },
         { label: 'width (mm)', name: 'width', type: 'number' },
-        { label: 'shape', name: 'shape', type: 'text' },
-        { label: 'top', name: 'top', type: 'number' },
-        { label: 'right', name: 'right', type: 'number' },
-        { label: 'bottom', name: 'bottom', type: 'number' },
-        { label: 'left', name: 'left', type: 'number' },
+        {
+            label: 'shape',
+            name: 'shape',
+            type: 'radio',
+            options: [
+                'Portrait rectangle',
+                'Landscape rectangle',
+                'Oval',
+                'Square',
+            ],
+            checkedItems: checkedItemsIdentificationhape,
+            setCheckedItems: setCheckedItemsIdentificationhape,
+        },
     ]
 
     const handleIdentificationChange = (event) => {
@@ -402,7 +488,7 @@ function SchadeRapportEditor() {
             checkedItems: checkedItemsLocation,
             setCheckedItems: setCheckedItemsLocation,
         },
-        { label: 'location number', name: 'locationNumber', type: 'number' },
+        { label: 'location number', name: 'locationNumber', type: 'text' },
         {
             label: 'storage type',
             name: 'storageType',
@@ -447,6 +533,12 @@ function SchadeRapportEditor() {
     }
 
     // primary support section
+    const [checkedItemsSupportBased1, setCheckedItemsSupportBased1] =
+        useState('')
+    const [
+        checkedItemsSupportBased1Setted,
+        checkedItemsSupportBased1SetSetted,
+    ] = useState(true)
     const [checkedItemsSupportMaterial1, setCheckedItemsSupportMaterial1] =
         useState([])
     const [
@@ -466,7 +558,7 @@ function SchadeRapportEditor() {
         checkedItemsSupportPaperType21SetSetted,
     ] = useState(true)
     const [checkedItemsSupportPaperType31, setCheckedItemsSupportPaperType31] =
-        useState('')
+        useState([])
     const [
         checkedItemsSupportPaperType31Setted,
         checkedItemsSupportPaperType31SetSetted,
@@ -486,12 +578,25 @@ function SchadeRapportEditor() {
     const [checkedItemsCondition1, setCheckedItemsCondition1] = useState('')
     const [checkedItemsCondition1Setted, checkedItemsCondition1SetSetted] =
         useState(true)
-    const [checkedItemsSurface1, setCheckedItemsSurface1] = useState('')
+    const [checkedItemsSurface1, setCheckedItemsSurface1] = useState([])
     const [checkedItemsSurface1Setted, checkedItemsSurface1SetSetted] =
         useState(true)
     const [checkedItemsDamage1, setCheckedItemsDamage1] = useState([])
     const [checkedItemsDamage1Setted, checkedItemsDamage1SetSetted] =
         useState(true)
+
+    useEffect(() => {
+        if (checkedItemsSupportBased1Setted) {
+            if (
+                Registratie.primarySupport.based !== '' &&
+                Registratie.primarySupport.based !== undefined &&
+                Registratie.primarySupport.based !== null
+            ) {
+                setCheckedItemsSupportBased1(Registratie.primarySupport.based)
+                checkedItemsSupportBased1SetSetted(false)
+            }
+        }
+    }, [Registratie.primarySupport.based, checkedItemsSupportBased1Setted])
 
     useEffect(() => {
         if (checkedItemsSupportMaterial1Setted) {
@@ -550,9 +655,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsSupportPaperType31Setted) {
             if (
-                Registratie.primarySupport.paperType3 !== '' &&
-                Registratie.primarySupport.paperType3 !== undefined &&
-                Registratie.primarySupport.paperType3 !== null
+                Registratie.primarySupport.surface.length !== 0 &&
+                Registratie.primarySupport.surface.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsSupportPaperType31(
                     Registratie.primarySupport.paperType3,
@@ -640,9 +746,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsSurface1Setted) {
             if (
-                Registratie.primarySupport.surface !== '' &&
-                Registratie.primarySupport.surface !== undefined &&
-                Registratie.primarySupport.surface !== null
+                Registratie.primarySupport.surface.length !== 0 &&
+                Registratie.primarySupport.surface.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsSurface1(Registratie.primarySupport.surface)
                 checkedItemsSurface1SetSetted(false)
@@ -663,6 +770,10 @@ function SchadeRapportEditor() {
             }
         }
     }, [Registratie.primarySupport.damage, checkedItemsDamage1Setted])
+
+    useEffect(() => {
+        Registratie.primarySupport.based = checkedItemsSupportBased1
+    }, [checkedItemsSupportBased1, Registratie.primarySupport])
 
     useEffect(() => {
         Registratie.primarySupport.material = checkedItemsSupportMaterial1
@@ -699,7 +810,22 @@ function SchadeRapportEditor() {
         Registratie.primarySupport.damage = checkedItemsDamage1
     }, [checkedItemsDamage1, Registratie.primarySupport])
 
+    useEffect(() => {
+        console.log(Registratie)
+    }, [Registratie])
+
     const PrimarySupportForm = [
+        {
+            label: 'based',
+            name: 'based',
+            type: 'radio',
+            options: [
+                'Based on previous description',
+                'Based on visual analysis',
+            ],
+            checkedItems: checkedItemsSupportBased1,
+            setCheckedItems: setCheckedItemsSupportBased1,
+        },
         {
             label: 'materials',
             name: 'material',
@@ -732,7 +858,7 @@ function SchadeRapportEditor() {
         {
             label: 'paper type 3',
             name: 'paperType3',
-            type: 'radio',
+            type: 'checkBox',
             options: ['Rough', 'Matt', 'Glossy', 'Satin'],
             checkedItems: checkedItemsSupportPaperType31,
             setCheckedItems: setCheckedItemsSupportPaperType31,
@@ -749,7 +875,7 @@ function SchadeRapportEditor() {
             label: 'verso',
             name: 'rectoVerso',
             type: 'radio',
-            options: ['None', 'Not accessible'],
+            options: ['None', 'Not accessible', 'Accessible'],
             checkedItems: checkedItemsVerso1,
             setCheckedItems: setCheckedItemsVerso1,
         },
@@ -757,7 +883,7 @@ function SchadeRapportEditor() {
             label: 'watermark',
             name: 'watermark',
             type: 'radio',
-            options: ['None', 'Not accessible'],
+            options: ['None', 'Not accessible', 'Accessible'],
             checkedItems: checkedItemsWatermark1,
             setCheckedItems: setCheckedItemsWatermark1,
         },
@@ -780,7 +906,7 @@ function SchadeRapportEditor() {
             setCheckedItems: setCheckedItemsPinholes1,
         },
         {
-            label: 'pinholes description',
+            label: 'pinholes amount',
             name: 'pinholesDescription',
             type: 'text',
         },
@@ -805,7 +931,7 @@ function SchadeRapportEditor() {
         {
             label: 'surface',
             name: 'surface',
-            type: 'radio',
+            type: 'checkBox',
             options: ['Dust', 'Dirt', 'Appears_clean'],
             checkedItems: checkedItemsSurface1,
             setCheckedItems: setCheckedItemsSurface1,
@@ -816,7 +942,7 @@ function SchadeRapportEditor() {
             type: 'checkBox',
             options: [
                 'No_damage',
-                'Abradion',
+                'Abrasion',
                 'Cut',
                 'Deformation',
                 'Discoloration',
@@ -828,9 +954,17 @@ function SchadeRapportEditor() {
                 'Staining',
                 'Rust',
                 'Water_damage',
-                'Wrinklinf',
+                'Wrinkling',
                 'Tear',
                 'Yellowing',
+                'Dent',
+                'Loss',
+                'Mold_active',
+                'Mold_non-active',
+                'Insect_damage_active',
+                'Insect_damage_non-active',
+                'Foxing',
+                'Hole',
             ],
             checkedItems: checkedItemsDamage1,
             setCheckedItems: setCheckedItemsDamage1,
@@ -854,6 +988,18 @@ function SchadeRapportEditor() {
     }
 
     // secondary support section
+    const [checkedItemsSupportAccessible2, setCheckedItemsSupportAccessible2] =
+        useState('')
+    const [
+        checkedItemsSupportAccessible2Setted,
+        checkedItemsSupportAccessible2SetSetted,
+    ] = useState(true)
+    const [checkedItemsSupportBased2, setCheckedItemsSupportBased2] =
+        useState('')
+    const [
+        checkedItemsSupportBased2Setted,
+        checkedItemsSupportBased2SetSetted,
+    ] = useState(true)
     const [checkedItemsSupportMaterial2, setCheckedItemsSupportMaterial2] =
         useState([])
     const [
@@ -873,7 +1019,7 @@ function SchadeRapportEditor() {
         checkedItemsSupportPaperType22SetSetted,
     ] = useState(true)
     const [checkedItemsSupportPaperType32, setCheckedItemsSupportPaperType32] =
-        useState('')
+        useState([])
     const [
         checkedItemsSupportPaperType32Setted,
         checkedItemsSupportPaperType32SetSetted,
@@ -893,13 +1039,43 @@ function SchadeRapportEditor() {
     const [checkedItemsCondition2, setCheckedItemsCondition2] = useState('')
     const [checkedItemsCondition2Setted, checkedItemsCondition2SetSetted] =
         useState(true)
-    const [checkedItemsSurface2, setCheckedItemsSurface2] = useState('')
+    const [checkedItemsSurface2, setCheckedItemsSurface2] = useState([])
     const [checkedItemsSurface2Setted, checkedItemsSurface2SetSetted] =
         useState(true)
     const [checkedItemsDamage2, setCheckedItemsDamage2] = useState([])
     const [checkedItemsDamage2Setted, checkedItemsDamage2SetSetted] =
         useState(true)
 
+    useEffect(() => {
+        if (checkedItemsSupportAccessible2Setted) {
+            if (
+                Registratie.secondarySupport.supportAccessible !== '' &&
+                Registratie.secondarySupport.supportAccessible !== undefined &&
+                Registratie.secondarySupport.supportAccessible !== null
+            ) {
+                setCheckedItemsSupportAccessible2(
+                    Registratie.secondarySupport.supportAccessible,
+                )
+                checkedItemsSupportAccessible2SetSetted(false)
+            }
+        }
+    }, [
+        Registratie.secondarySupport.supportAccessible,
+        checkedItemsSupportAccessible2Setted,
+    ])
+
+    useEffect(() => {
+        if (checkedItemsSupportBased2Setted) {
+            if (
+                Registratie.secondarySupport.based !== '' &&
+                Registratie.secondarySupport.based !== undefined &&
+                Registratie.secondarySupport.based !== null
+            ) {
+                setCheckedItemsSupportBased2(Registratie.secondarySupport.based)
+                checkedItemsSupportBased2SetSetted(false)
+            }
+        }
+    }, [Registratie.secondarySupport.based, checkedItemsSupportBased2Setted])
     useEffect(() => {
         if (checkedItemsSupportMaterial2Setted) {
             if (
@@ -957,9 +1133,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsSupportPaperType32Setted) {
             if (
-                Registratie.secondarySupport.paperType3 !== '' &&
-                Registratie.secondarySupport.paperType3 !== undefined &&
-                Registratie.secondarySupport.paperType3 !== null
+                Registratie.primarySupport.surface.length !== 0 &&
+                Registratie.primarySupport.surface.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsSupportPaperType32(
                     Registratie.secondarySupport.paperType3,
@@ -1049,9 +1226,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsSurface2Setted) {
             if (
-                Registratie.secondarySupport.surface !== '' &&
-                Registratie.secondarySupport.surface !== undefined &&
-                Registratie.secondarySupport.surface !== null
+                Registratie.secondarySupport.surface.length !== 0 &&
+                Registratie.secondarySupport.surface.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsSurface2(Registratie.secondarySupport.surface)
                 checkedItemsSurface2SetSetted(false)
@@ -1072,6 +1250,15 @@ function SchadeRapportEditor() {
             }
         }
     }, [Registratie.secondarySupport.damage, checkedItemsDamage2Setted])
+
+    useEffect(() => {
+        Registratie.secondarySupport.supportAccessible =
+            checkedItemsSupportAccessible2
+    }, [checkedItemsSupportAccessible2, Registratie.secondarySupport])
+
+    useEffect(() => {
+        Registratie.secondarySupport.based = checkedItemsSupportBased2
+    }, [checkedItemsSupportBased2, Registratie.secondarySupport])
 
     useEffect(() => {
         Registratie.secondarySupport.material = checkedItemsSupportMaterial2
@@ -1108,7 +1295,49 @@ function SchadeRapportEditor() {
         Registratie.secondarySupport.damage = checkedItemsDamage2
     }, [checkedItemsDamage2, Registratie.secondarySupport])
 
+    const [checkedItemsAttachment, setCheckedItemsAttachment] = useState('')
+    const [checkedItemsAttachmentSetted, checkedItemsAttachmentSetSetted] =
+        useState(true)
+
+    useEffect(() => {
+        if (checkedItemsAttachmentSetted) {
+            if (
+                Registratie.secondarySupport.attachment !== '' &&
+                Registratie.secondarySupport.attachment !== undefined &&
+                Registratie.secondarySupport.attachment !== null
+            ) {
+                setCheckedItemsAttachment(
+                    Registratie.secondarySupport.attachment,
+                )
+                checkedItemsAttachmentSetSetted(false)
+            }
+        }
+    }, [Registratie.secondarySupport.attachment, checkedItemsAttachmentSetted])
+
+    useEffect(() => {
+        Registratie.secondarySupport.attachment = checkedItemsAttachment
+    }, [checkedItemsAttachment, Registratie.secondarySupport])
+
     const SecondartSupportForm = [
+        {
+            label: 'support',
+            name: 'supportAccessible',
+            type: 'radio',
+            options: ['Not accessible/unknown', 'No secondary support'],
+            checkedItems: checkedItemsSupportAccessible2,
+            setCheckedItems: setCheckedItemsSupportAccessible2,
+        },
+        {
+            label: 'based',
+            name: 'based',
+            type: 'radio',
+            options: [
+                'Based on previous description',
+                'Based on visual analysis',
+            ],
+            checkedItems: checkedItemsSupportBased2,
+            setCheckedItems: setCheckedItemsSupportBased2,
+        },
         {
             label: 'materials',
             name: 'material',
@@ -1141,7 +1370,7 @@ function SchadeRapportEditor() {
         {
             label: 'paper type 3',
             name: 'paperType3',
-            type: 'radio',
+            type: 'checkBox',
             options: ['Rough', 'Matt', 'Glossy', 'Satin'],
             checkedItems: checkedItemsSupportPaperType32,
             setCheckedItems: setCheckedItemsSupportPaperType32,
@@ -1161,6 +1390,14 @@ function SchadeRapportEditor() {
             options: ['None', 'Not accessible'],
             checkedItems: checkedItemsVerso2,
             setCheckedItems: setCheckedItemsVerso2,
+        },
+        {
+            label: 'Attachment to primary support',
+            name: 'attachment',
+            type: 'radio',
+            options: ['Partly glued', 'Fully glued'],
+            checkedItems: checkedItemsAttachment,
+            setCheckedItems: setCheckedItemsAttachment,
         },
         {
             label: 'watermark',
@@ -1214,7 +1451,7 @@ function SchadeRapportEditor() {
         {
             label: 'surface',
             name: 'surface',
-            type: 'radio',
+            type: 'checkBox',
             options: ['Dust', 'Dirt', 'Appears_clean'],
             checkedItems: checkedItemsSurface2,
             setCheckedItems: setCheckedItemsSurface2,
@@ -1225,7 +1462,7 @@ function SchadeRapportEditor() {
             type: 'checkBox',
             options: [
                 'No_damage',
-                'Abradion',
+                'Abrasion',
                 'Cut',
                 'Deformation',
                 'Discoloration',
@@ -1237,9 +1474,17 @@ function SchadeRapportEditor() {
                 'Staining',
                 'Rust',
                 'Water_damage',
-                'Wrinklinf',
+                'Wrinkling',
                 'Tear',
                 'Yellowing',
+                'Dent',
+                'Loss',
+                'Mold_active',
+                'Mold_non-active',
+                'Insect_damage_active',
+                'Insect_damage_non-active',
+                'Foxing',
+                'Hole',
             ],
             checkedItems: checkedItemsDamage2,
             setCheckedItems: setCheckedItemsDamage2,
@@ -1292,7 +1537,7 @@ function SchadeRapportEditor() {
         checkedItemsPictorialCondition1Setted,
         checkedItemsPictorialCondition1SetSetted,
     ] = useState(true)
-    const [checkedPictorialSurface1, setCheckedPictorialSurface1] = useState('')
+    const [checkedPictorialSurface1, setCheckedPictorialSurface1] = useState([])
     const [
         checkedItemsPictorialSurface1Setted,
         checkedItemsPictorialSurface1SetSetted,
@@ -1407,9 +1652,12 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsPictorialSurface1Setted) {
             if (
-                Registratie.primarySupport.pictorial.surface !== '' &&
-                Registratie.primarySupport.pictorial.surface !== undefined &&
-                Registratie.primarySupport.pictorial.surface !== null
+                Registratie.primarySupport.pictorial.surface.length !== 0 &&
+                Registratie.primarySupport.pictorial.surface.every(function (
+                    v,
+                ) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedPictorialSurface1(
                     Registratie.primarySupport.pictorial.surface,
@@ -1476,8 +1724,8 @@ function SchadeRapportEditor() {
 
     const FirstPictorialForm = [
         {
-            label: 'firable media',
-            name: 'firableMedia',
+            label: 'friable media',
+            name: 'friableMedia',
             type: 'checkBox',
             options: ['Chalk', 'Black dry medium', 'Charcoal', 'Pastel'],
             checkedItems: checkedPictorialMedia1,
@@ -1490,6 +1738,11 @@ function SchadeRapportEditor() {
             options: ['Probably_yes', 'Probably_not', 'Yes', 'No', 'Unclear'],
             checkedItems: checkedPictorialFixative1,
             setCheckedItems: setCheckedPictorialFixative1,
+        },
+        {
+            label: 'fixative indicators',
+            name: 'fixativeIndicators',
+            type: 'text',
         },
         {
             label: 'other media',
@@ -1525,7 +1778,7 @@ function SchadeRapportEditor() {
                 'Scratching',
                 'Smudging',
                 'Squaring',
-                'Strumping',
+                'Stumping',
                 'Wet_brush',
                 'Wash',
             ],
@@ -1544,7 +1797,7 @@ function SchadeRapportEditor() {
         {
             label: 'surface',
             name: 'surface',
-            type: 'radio',
+            type: 'checkBox',
             options: ['Dust', 'Dirt', 'Appears_clean'],
             checkedItems: checkedPictorialSurface1,
             setCheckedItems: setCheckedPictorialSurface1,
@@ -1555,25 +1808,40 @@ function SchadeRapportEditor() {
             type: 'checkBox',
             options: [
                 'No_damage',
-                'Abradion',
+                'Abrasion',
+                'Bleeding',
+                'Blister',
+                'Bulge',
+                'Cleavage',
                 'Cut',
                 'Deformation',
                 'Discoloration',
+                'Fingerprint',
+                'Flaking',
                 'Fold',
                 'Former_treatment',
-                'Mold',
                 'Insect_damage',
-                'Scratch',
-                'Staining',
+                'Insect_damage_active',
+                'Insect_damage_non-active',
+                'Lifting',
+                'Mold',
+                'Mold_active',
+                'Mold_non-active',
+                'Loss',
                 'Rust',
-                'Water_damage',
-                'Wrinklinf',
+                'Scratch',
+                'Smudging',
+                'Staining',
                 'Tear',
+                'Transfer',
+                'Water_damage',
+                'Wrinkling',
                 'Yellowing',
             ],
             checkedItems: checkedPictorialDamage1,
             setCheckedItems: setCheckedPictorialDamage1,
         },
+        { label: 'remarks', name: 'remarksCondition', type: 'textBox' },
     ]
 
     const handleFirstPictorailChange = (event) => {
@@ -1591,6 +1859,12 @@ function SchadeRapportEditor() {
     }
 
     // second pictorial section
+    const [checkedPictorialAccessible2, setCheckedPictorialAccessible2] =
+        useState('')
+    const [
+        checkedItemsPictorialAccessible2Setted,
+        checkedItemsPictorialAccessible2SetSetted,
+    ] = useState(true)
     const [checkedPictorialMedia2, setCheckedPictorialMedia2] = useState([])
     const [
         checkedItemsPictorialMedia2Setted,
@@ -1620,7 +1894,7 @@ function SchadeRapportEditor() {
         checkedItemsPictorialCondition2Setted,
         checkedItemsPictorialCondition2SetSetted,
     ] = useState(true)
-    const [checkedPictorialSurface2, setCheckedPictorialSurface2] = useState('')
+    const [checkedPictorialSurface2, setCheckedPictorialSurface2] = useState([])
     const [
         checkedItemsPictorialSurface2Setted,
         checkedItemsPictorialSurface2SetSetted,
@@ -1651,6 +1925,27 @@ function SchadeRapportEditor() {
     }, [
         Registratie.secondarySupport.pictorial.friableMedia,
         checkedItemsPictorialMedia2Setted,
+    ])
+
+    useEffect(() => {
+        if (checkedItemsPictorialAccessible2Setted) {
+            if (
+                Registratie.secondarySupport.pictorial.pictorialAccessible !==
+                    '' &&
+                Registratie.secondarySupport.pictorial.pictorialAccessible !==
+                    undefined &&
+                Registratie.secondarySupport.pictorial.pictorialAccessible !==
+                    null
+            ) {
+                setCheckedPictorialAccessible2(
+                    Registratie.secondarySupport.pictorial.pictorialAccessible,
+                )
+                checkedItemsPictorialAccessible2SetSetted(false)
+            }
+        }
+    }, [
+        Registratie.secondarySupport.pictorial.pictorialAccessible,
+        checkedItemsPictorialAccessible2Setted,
     ])
 
     useEffect(() => {
@@ -1738,9 +2033,12 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsPictorialSurface2Setted) {
             if (
-                Registratie.secondarySupport.pictorial.surface !== '' &&
-                Registratie.secondarySupport.pictorial.surface !== undefined &&
-                Registratie.secondarySupport.pictorial.surface !== null
+                Registratie.secondarySupport.pictorial.surface.length !== 0 &&
+                Registratie.secondarySupport.pictorial.surface.every(function (
+                    v,
+                ) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedPictorialSurface2(
                     Registratie.secondarySupport.pictorial.surface,
@@ -1780,6 +2078,11 @@ function SchadeRapportEditor() {
     }, [checkedPictorialMedia2, Registratie.secondarySupport.pictorial])
 
     useEffect(() => {
+        Registratie.secondarySupport.pictorial.pictorialAccessible =
+            checkedPictorialAccessible2
+    }, [checkedPictorialAccessible2, Registratie.secondarySupport.pictorial])
+
+    useEffect(() => {
         Registratie.secondarySupport.pictorial.fixative =
             checkedPictorialFixative2
     }, [checkedPictorialFixative2, Registratie.secondarySupport.pictorial])
@@ -1810,6 +2113,14 @@ function SchadeRapportEditor() {
 
     const SecondaryPictorialForm = [
         {
+            label: 'pictorial',
+            name: 'pictorialAccessible',
+            type: 'radio',
+            options: ['Not accessible/unknown', 'No secondary support'],
+            checkedItems: checkedPictorialAccessible2,
+            setCheckedItems: setCheckedPictorialAccessible2,
+        },
+        {
             label: 'firable media',
             name: 'firableMedia',
             type: 'checkBox',
@@ -1824,6 +2135,11 @@ function SchadeRapportEditor() {
             options: ['Probably_yes', 'Probably_not', 'Yes', 'No', 'Unclear'],
             checkedItems: checkedPictorialFixative2,
             setCheckedItems: setCheckedPictorialFixative2,
+        },
+        {
+            label: 'fixative indicators',
+            name: 'fixativeIndicators',
+            type: 'text',
         },
         {
             label: 'other media',
@@ -1859,7 +2175,7 @@ function SchadeRapportEditor() {
                 'Scratching',
                 'Smudging',
                 'Squaring',
-                'Strumping',
+                'Stumping',
                 'Wet_brush',
                 'Wash',
             ],
@@ -1878,7 +2194,7 @@ function SchadeRapportEditor() {
         {
             label: 'surface',
             name: 'surface',
-            type: 'radio',
+            type: 'checkBox',
             options: ['Dust', 'Dirt', 'Appears_clean'],
             checkedItems: checkedPictorialSurface2,
             setCheckedItems: setCheckedPictorialSurface2,
@@ -1889,26 +2205,40 @@ function SchadeRapportEditor() {
             type: 'checkBox',
             options: [
                 'No_damage',
-                'Abradion',
+                'Abrasion',
+                'Bleeding',
+                'Blister',
+                'Bulge',
+                'Cleavage',
                 'Cut',
                 'Deformation',
                 'Discoloration',
+                'Fingerprint',
+                'Flaking',
                 'Fold',
                 'Former_treatment',
-                'Mold',
                 'Insect_damage',
-                'Former_treatment',
-                'Scratch',
-                'Staining',
+                'Insect_damage_active',
+                'Insect_damage_non-active',
+                'Lifting',
+                'Loss',
+                'Mold',
+                'Mold_active',
+                'Mold_non-active',
                 'Rust',
-                'Water_damage',
-                'Wrinklinf',
+                'Scratch',
+                'Smudging',
+                'Staining',
                 'Tear',
+                'Transfer',
+                'Water_damage',
+                'Wrinkling',
                 'Yellowing',
             ],
             checkedItems: checkedPictorialDamage2,
             setCheckedItems: setCheckedPictorialDamage2,
         },
+        { label: 'remarks', name: 'remarksCondition', type: 'textBox' },
     ]
 
     const handleSecondPictorailChange = (event) => {
@@ -1926,24 +2256,25 @@ function SchadeRapportEditor() {
     }
 
     const handleGeneralRemarks = (event) => {
+        const { value } = event.target
         setRegistratie((prevRegistratie) => ({
             ...prevRegistratie,
-            remarks: event.target.value,
+            remarks: value,
         }))
     }
 
     // mounting section
 
-    const [checkedItemsNature, setCheckedItemsNature] = useState('')
+    const [checkedItemsNature, setCheckedItemsNature] = useState([])
     const [checkedItemsNatureSetted, checkedItemsNatureSetSetted] =
         useState(true)
-    const [checkedItemsAssemblage, setCheckedItemsAssemblage] = useState('')
+    const [checkedItemsAssemblage, setCheckedItemsAssemblage] = useState([])
     const [checkedItemsAssemblageSetted, checkedItemsAssemblageSetSetted] =
         useState(true)
     const [checkedItemsCondition, setCheckedItemsCondition] = useState('')
     const [checkedItemsConditionSetted, checkedItemsConditionSetSetted] =
         useState(true)
-    const [checkedItemsSurface, setCheckedItemsSurface] = useState('')
+    const [checkedItemsSurface, setCheckedItemsSurface] = useState([])
     const [checkedItemsSurfaceSetted, checkedItemsSurfaceSetSetted] =
         useState(true)
     const [checkedItemsDamage, setCheckedItemsDamage] = useState([])
@@ -1953,9 +2284,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsNatureSetted) {
             if (
-                Registratie.mounting.nature !== '' &&
-                Registratie.mounting.nature !== undefined &&
-                Registratie.mounting.nature !== null
+                Registratie.mounting.nature.length !== 0 &&
+                Registratie.mounting.nature.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsNature(Registratie.mounting.nature)
                 checkedItemsNatureSetSetted(false)
@@ -1966,9 +2298,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsAssemblageSetted) {
             if (
-                Registratie.mounting.assemblage !== '' &&
-                Registratie.mounting.assemblage !== undefined &&
-                Registratie.mounting.assemblage !== null
+                Registratie.mounting.assemblage.length !== 0 &&
+                Registratie.mounting.assemblage.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsAssemblage(Registratie.mounting.assemblage)
                 checkedItemsAssemblageSetSetted(false)
@@ -1992,9 +2325,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsSurfaceSetted) {
             if (
-                Registratie.mounting.surface !== '' &&
-                Registratie.mounting.surface !== undefined &&
-                Registratie.mounting.surface !== null
+                Registratie.mounting.surface.length !== 0 &&
+                Registratie.mounting.surface.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsSurface(Registratie.mounting.surface)
                 checkedItemsSurfaceSetSetted(false)
@@ -2040,7 +2374,7 @@ function SchadeRapportEditor() {
         {
             label: 'nature',
             name: 'nature',
-            type: 'radio',
+            type: 'checkBox',
             checkedItems: checkedItemsNature,
             setCheckedItems: setCheckedItemsNature,
             options: [
@@ -2054,7 +2388,7 @@ function SchadeRapportEditor() {
         {
             label: 'assemblage',
             name: 'assemblage',
-            type: 'radio',
+            type: 'checkBox',
             checkedItems: checkedItemsAssemblage,
             setCheckedItems: setCheckedItemsAssemblage,
             options: [
@@ -2077,7 +2411,7 @@ function SchadeRapportEditor() {
         {
             label: 'surface',
             name: 'surface',
-            type: 'radio',
+            type: 'checkBox',
             checkedItems: checkedItemsSurface,
             setCheckedItems: setCheckedItemsSurface,
             options: ['Dust', 'Dirt', 'Appears clean'],
@@ -2094,7 +2428,11 @@ function SchadeRapportEditor() {
                 'Deformation',
                 'Former treatmanet',
                 'Mold',
-                'Insect damage',
+                'Mold active',
+                'Mold non-active',
+                'Loss',
+                'Insect damage active',
+                'Insect damage non-active',
                 'Tension of the support',
                 'Wrinkling',
             ],
@@ -2133,12 +2471,40 @@ function SchadeRapportEditor() {
     }
 
     //dates section
+    const [checkedItemsDateValue, setCheckedItemsDateValue] = useState('')
+    const [checkedItemsDateValueSetted, checkedItemsDateValueSetSetted] =
+        useState(true)
+
+    useEffect(() => {
+        if (checkedItemsDateValueSetted) {
+            if (
+                Registratie.identification.date.value !== '' &&
+                Registratie.identification.date.value !== undefined &&
+                Registratie.identification.date.value !== null
+            ) {
+                setCheckedItemsDateValue(Registratie.identification.date.value)
+                checkedItemsDateValueSetSetted(false)
+            }
+        }
+    }, [Registratie.identification.date.value, checkedItemsDateValueSetted])
+
+    useEffect(() => {
+        Registratie.identification.date.value = checkedItemsDateValue
+    }, [checkedItemsDateValue, Registratie.identification.date])
 
     const DatesForm = [
         { name: 'text', label: 'text', type: 'text' },
         { name: 'location', label: 'location', type: 'text' },
         { name: 'media', label: 'media', type: 'text' },
-        { name: 'value', label: 'value', type: 'text' },
+        { name: 'supposedDate', label: 'supposed date', type: 'text' },
+        {
+            name: 'value',
+            label: 'value',
+            type: 'radio',
+            options: ['Supposed', 'Known', 'Unknown'],
+            checkedItems: checkedItemsDateValue,
+            setCheckedItems: setCheckedItemsDateValue,
+        },
     ]
 
     const handleDatesChange = (event) => {
@@ -2156,6 +2522,55 @@ function SchadeRapportEditor() {
     }
 
     //signature section
+    const [checkedItemsSignatureValue, setCheckedItemsSignatureValue] =
+        useState('')
+    const [
+        checkedItemsSignatureValueSetted,
+        checkedItemsSignatureValueSetSetted,
+    ] = useState(true)
+
+    useEffect(() => {
+        if (checkedItemsSignatureValueSetted) {
+            if (
+                Registratie.identification.signature.value !== '' &&
+                Registratie.identification.signature.value !== undefined &&
+                Registratie.identification.signature.value !== null
+            ) {
+                setCheckedItemsSignatureValue(
+                    Registratie.identification.signature.value,
+                )
+                checkedItemsSignatureValueSetSetted(false)
+            }
+        }
+    }, [
+        Registratie.identification.signature.value,
+        checkedItemsSignatureValueSetted,
+    ])
+
+    useEffect(() => {
+        Registratie.identification.signature.value = checkedItemsSignatureValue
+    }, [checkedItemsSignatureValue, Registratie.identification.signature])
+
+    const SignatureForm = [
+        { name: 'text', label: 'text', type: 'text' },
+        { name: 'location', label: 'location', type: 'text' },
+        { name: 'media', label: 'media', type: 'text' },
+        {
+            name: 'value',
+            label: 'value',
+            type: 'radio',
+            options: [
+                'Monogram',
+                'Not signed',
+                'Symbol',
+                'Initials',
+                'Full signature',
+            ],
+            checkedItems: checkedItemsSignatureValue,
+            setCheckedItems: setCheckedItemsSignatureValue,
+        },
+    ]
+
     const handleSignatureChange = (event) => {
         const { name, value } = event.target
         setRegistratie((prevRegistratie) => ({
@@ -2171,7 +2586,7 @@ function SchadeRapportEditor() {
     }
 
     // inscription section
-    const [numElementsInscription, setNumElementsInscription] = useState(1)
+    const [numElementsInscription, setNumElementsInscription] = useState(0)
 
     useEffect(() => {
         setNumElementsInscription(
@@ -2194,6 +2609,19 @@ function SchadeRapportEditor() {
                         media: null,
                         value: null,
                     },
+                ],
+            },
+        }))
+    }
+
+    const handleClickDeleteInscription = () => {
+        setNumElementsInscription(numElementsInscription - 1)
+        setRegistratie((prevRegistratie) => ({
+            ...prevRegistratie,
+            identification: {
+                ...prevRegistratie.identification,
+                inscriptions: [
+                    ...prevRegistratie.identification.inscriptions.slice(0, -1),
                 ],
             },
         }))
@@ -2231,7 +2659,7 @@ function SchadeRapportEditor() {
 
     //collectionmark section
     const [numElementsCollectionMarks, setNumElementsCollectionMarks] =
-        useState(1)
+        useState(0)
 
     useEffect(() => {
         setNumElementsCollectionMarks(
@@ -2254,6 +2682,22 @@ function SchadeRapportEditor() {
                         media: null,
                         value: null,
                     },
+                ],
+            },
+        }))
+    }
+
+    const handleClickDeleteCollectionMarks = () => {
+        setNumElementsCollectionMarks(numElementsCollectionMarks - 1)
+        setRegistratie((prevRegistratie) => ({
+            ...prevRegistratie,
+            identification: {
+                ...prevRegistratie.identification,
+                collectionMarks: [
+                    ...prevRegistratie.identification.collectionMarks.slice(
+                        0,
+                        -1,
+                    ),
                 ],
             },
         }))
@@ -2299,31 +2743,35 @@ function SchadeRapportEditor() {
         checkedItemsRabbetAccessibleSetted,
         checkedItemsRabbetAccessibleSetSetted,
     ] = useState(true)
-    const [checkedItemsInnerSpacers1, setCheckedItemsInnerSpacers1] =
-        useState('')
+    const [checkedItemsInnerSpacers1, setCheckedItemsInnerSpacers1] = useState(
+        [],
+    )
     const [
         checkedItemsInnerSpacers1Setted,
         checkedItemsInnerSpacers1SetSetted,
     ] = useState(true)
-    const [checkedItemsInnerSpacers2, setCheckedItemsInnerSpacers2] =
-        useState('')
+    const [checkedItemsInnerSpacers2, setCheckedItemsInnerSpacers2] = useState(
+        [],
+    )
     const [
         checkedItemsInnerSpacers2Setted,
         checkedItemsInnerSpacers2SetSetted,
     ] = useState(true)
-    const [checkedItemsBackingBoard1, setCheckedItemsBackingBoard1] =
-        useState('')
+    const [checkedItemsBackingBoard1, setCheckedItemsBackingBoard1] = useState(
+        [],
+    )
     const [
         checkedItemsBackingBoard1Setted,
         checkedItemsBackingBoard1SetSetted,
     ] = useState(true)
-    const [checkedItemsBackingBoard2, setCheckedItemsBackingBoard2] =
-        useState('')
+    const [checkedItemsBackingBoard2, setCheckedItemsBackingBoard2] = useState(
+        [],
+    )
     const [
         checkedItemsBackingBoard2Setted,
         checkedItemsBackingBoard2SetSetted,
     ] = useState(true)
-    const [checkedItemsSealing, setCheckedItemsSealing] = useState('')
+    const [checkedItemsSealing, setCheckedItemsSealing] = useState([])
     const [checkedItemsSealingSetted, checkedItemsSealingSetSetted] =
         useState(true)
     const [checkedItemsHangingSystem, setCheckedItemsHangingSystem] =
@@ -2352,7 +2800,7 @@ function SchadeRapportEditor() {
     ] = useState(true)
 
     const [checkedItemsFramingSurface, setCheckedItemsFramingSurface] =
-        useState('')
+        useState([])
     const [
         checkedItemsFramingSurfaceSetted,
         checkedItemsFramingSurfaceSetSetted,
@@ -2403,9 +2851,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsInnerSpacers1Setted) {
             if (
-                Registratie.framing.innerSpacers1 !== '' &&
-                Registratie.framing.innerSpacers1 !== undefined &&
-                Registratie.framing.innerSpacers1 !== null
+                Registratie.framing.innerSpacers1.length !== 0 &&
+                Registratie.framing.innerSpacers1.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsInnerSpacers1(Registratie.framing.innerSpacers1)
                 checkedItemsInnerSpacers1SetSetted(false)
@@ -2416,9 +2865,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsInnerSpacers2Setted) {
             if (
-                Registratie.framing.innerSpacers2 !== '' &&
-                Registratie.framing.innerSpacers2 !== undefined &&
-                Registratie.framing.innerSpacers2 !== null
+                Registratie.framing.innerSpacers2.length !== 0 &&
+                Registratie.framing.innerSpacers2.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsInnerSpacers2(Registratie.framing.innerSpacers2)
                 checkedItemsInnerSpacers2SetSetted(false)
@@ -2429,9 +2879,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsBackingBoard1Setted) {
             if (
-                Registratie.framing.backingBoard1 !== '' &&
-                Registratie.framing.backingBoard1 !== undefined &&
-                Registratie.framing.backingBoard1 !== null
+                Registratie.framing.backingBoard1.length !== 0 &&
+                Registratie.framing.backingBoard1.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsBackingBoard1(Registratie.framing.backingBoard1)
                 checkedItemsBackingBoard1SetSetted(false)
@@ -2442,9 +2893,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsBackingBoard2Setted) {
             if (
-                Registratie.framing.backingBoard2 !== '' &&
-                Registratie.framing.backingBoard2 !== undefined &&
-                Registratie.framing.backingBoard2 !== null
+                Registratie.framing.backingBoard2.length !== 0 &&
+                Registratie.framing.backingBoard2.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsBackingBoard2(Registratie.framing.backingBoard2)
                 checkedItemsBackingBoard2SetSetted(false)
@@ -2455,9 +2907,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsSealingSetted) {
             if (
-                Registratie.framing.sealing !== '' &&
-                Registratie.framing.sealing !== undefined &&
-                Registratie.framing.sealing !== null
+                Registratie.framing.sealing.length !== 0 &&
+                Registratie.framing.sealing.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsSealing(Registratie.framing.sealing)
                 checkedItemsSealingSetSetted(false)
@@ -2522,9 +2975,10 @@ function SchadeRapportEditor() {
     useEffect(() => {
         if (checkedItemsFramingSurfaceSetted) {
             if (
-                Registratie.framing.surface !== '' &&
-                Registratie.framing.surface !== undefined &&
-                Registratie.framing.surface !== null
+                Registratie.framing.surface.length !== 0 &&
+                Registratie.framing.surface.every(function (v) {
+                    return v === null
+                }) !== true
             ) {
                 setCheckedItemsFramingSurface(Registratie.framing.surface)
                 checkedItemsFramingSurfaceSetSetted(false)
@@ -2668,11 +3122,70 @@ function SchadeRapportEditor() {
         Registratie.framing.aestheticProblems = checkedItemsAestheticProblems
     }, [checkedItemsAestheticProblems, Registratie.framing])
 
+    const [checkedItemsFraminghape, setCheckedItemsFraminghape] = useState('')
+    const [checkedItemsFraminghapeSetted, checkedItemsFraminghapeSetSetted] =
+        useState(true)
+
+    useEffect(() => {
+        if (checkedItemsFraminghapeSetted) {
+            if (
+                Registratie.framing.shape !== '' &&
+                Registratie.framing.shape !== undefined &&
+                Registratie.framing.shape !== null
+            ) {
+                setCheckedItemsFraminghape(Registratie.framing.shape)
+                checkedItemsFraminghapeSetSetted(false)
+            }
+        }
+    }, [Registratie.framing.shape, checkedItemsFraminghapeSetted])
+
+    useEffect(() => {
+        Registratie.framing.shape = checkedItemsFraminghape
+    }, [checkedItemsFraminghape, Registratie.framing])
+
+    const [checkedItemsDamageRelevant, setCheckedItemsDamageRelevant] =
+        useState('')
+    const [
+        checkedItemsDamageRelevantSetted,
+        checkedItemsDamageRelevantSetSetted,
+    ] = useState(true)
+
+    useEffect(() => {
+        if (checkedItemsDamageRelevantSetted) {
+            if (
+                Registratie.framing.damageRelevant !== '' &&
+                Registratie.framing.damageRelevant !== undefined &&
+                Registratie.framing.damageRelevant !== null
+            ) {
+                setCheckedItemsDamageRelevant(
+                    Registratie.framing.damageRelevant,
+                )
+                checkedItemsDamageRelevantSetSetted(false)
+            }
+        }
+    }, [Registratie.framing.damageRelevant, checkedItemsDamageRelevantSetted])
+
+    useEffect(() => {
+        Registratie.framing.damageRelevant = checkedItemsDamageRelevant
+    }, [checkedItemsDamageRelevant, Registratie.framing])
+
     const framingForm = [
         { name: 'height', label: 'height', type: 'number' },
         { name: 'width', label: 'width', type: 'number' },
         { name: 'depth', label: 'depth', type: 'number' },
-        { name: 'shape', label: 'shape', type: 'text' },
+        {
+            label: 'shape',
+            name: 'shape',
+            type: 'radio',
+            options: [
+                'Portrait rectangle',
+                'Landscape rectangle',
+                'Oval',
+                'Square',
+            ],
+            checkedItems: checkedItemsFraminghape,
+            setCheckedItems: setCheckedItemsFraminghape,
+        },
         {
             name: 'appertureFrameHeight',
             label: 'apperture frame height',
@@ -2704,7 +3217,7 @@ function SchadeRapportEditor() {
             type: 'number',
         },
         {
-            label: 'Rabbet accessible',
+            label: 'Additional framing dimensions',
             name: 'rabbetAccessible',
             type: 'radio',
             checkedItems: checkedItemsRabbetAccessible,
@@ -2768,7 +3281,7 @@ function SchadeRapportEditor() {
         {
             name: 'innerSpacers1',
             label: 'inner spacers 1',
-            type: 'radio',
+            type: 'checkBox',
             options: ['Wood', 'Cork', 'Cardboard'],
             checkedItems: checkedItemsInnerSpacers1,
             setCheckedItems: setCheckedItemsInnerSpacers1,
@@ -2776,7 +3289,7 @@ function SchadeRapportEditor() {
         {
             name: 'innerSpacers2',
             label: 'inner spacers 2',
-            type: 'radio',
+            type: 'checkBox',
             checkedItems: checkedItemsInnerSpacers2,
             setCheckedItems: setCheckedItemsInnerSpacers2,
             options: [
@@ -2792,7 +3305,7 @@ function SchadeRapportEditor() {
         {
             name: 'backingBoard1',
             label: 'backing board 1',
-            type: 'radio',
+            type: 'checkBox',
             options: ['Wood', 'Metal', 'Cardboard'],
             checkedItems: checkedItemsBackingBoard1,
             setCheckedItems: setCheckedItemsBackingBoard1,
@@ -2800,7 +3313,7 @@ function SchadeRapportEditor() {
         {
             name: 'backingBoard2',
             label: 'backing board 2',
-            type: 'radio',
+            type: 'checkBox',
             options: [
                 'Screwed',
                 'Framing staples in rabbet',
@@ -2815,7 +3328,7 @@ function SchadeRapportEditor() {
         {
             name: 'sealing',
             label: 'sealing',
-            type: 'radio',
+            type: 'checkBox',
             options: [
                 'Paper strips',
                 'Frame sealing tape',
@@ -2881,9 +3394,17 @@ function SchadeRapportEditor() {
         { name: 'labelsAmount', label: 'amount of labels', type: 'number' },
         { name: 'historyDescription', label: 'remarks', type: 'textBox' },
         {
+            name: 'Damage relevant to project',
+            label: 'damageRelevant',
+            type: 'radio',
+            options: ['Yes', 'No'],
+            checkedItems: checkedItemsDamageRelevant,
+            setCheckedItems: setCheckedItemsDamageRelevant,
+        },
+        {
             name: 'surface',
             label: 'surface',
-            type: 'radio',
+            type: 'checkBox',
             options: ['Dust', 'Dirt', 'Appears clean'],
             checkedItems: checkedItemsFramingSurface,
             setCheckedItems: setCheckedItemsFramingSurface,
@@ -2966,7 +3487,9 @@ function SchadeRapportEditor() {
     const [otherValuesFraming, setOtherValuesFraming] = useState(
         Array.from({ length: 8 }, () => ''),
     )
-
+    const [otherValuesIdentification, setOtherValuesIdentification] = useState(
+        Array.from({ length: 8 }, () => ''),
+    )
     const customStyles = {
         content: {
             top: '50%',
@@ -3016,34 +3539,54 @@ function SchadeRapportEditor() {
                                 fields={IdentificationForm}
                                 handleChange={handleIdentificationChange}
                                 formData={Registratie.identification}
+                                otherValues={otherValuesIdentification}
+                                setOtherValues={setOtherValuesIdentification}
                             />
-                            artist
+                            <p className="text-xl font-bold mt-6">artist</p>
                             <AutomaticForm
                                 fields={ArtistForm}
                                 handleChange={handleArtistChange}
                                 formData={Registratie.identification.artist}
                             />
-                            date
+                            <p className="text-xl font-bold mt-6">date</p>
                             <AutomaticForm
                                 fields={DatesForm}
                                 handleChange={handleDatesChange}
                                 formData={Registratie.identification.date}
                             />
-                            signature
+                            <p className="text-xl font-bold mt-6">signature</p>
                             <AutomaticForm
-                                fields={DatesForm}
+                                fields={SignatureForm}
                                 handleChange={handleSignatureChange}
                                 formData={Registratie.identification.signature}
                             />
-                            inscription
+                            <p className="text-xl font-bold mt-6">
+                                inscription
+                            </p>
                             <div>
-                                <button onClick={handleClickInscription}>
+                                <button
+                                    onClick={handleClickInscription}
+                                    className="cursor-pointer bg-greenCustom px-2 rounded-2xl mt-2 items-center mr-5 hover:bg-blackCustom text-white"
+                                >
                                     Click to Add inscription
                                 </button>
+                                <button
+                                    onClick={handleClickDeleteInscription}
+                                    className="cursor-pointer bg-darkBrown px-2 rounded-2xl mt-2 items-center hover:bg-blackCustom text-white"
+                                >
+                                    Click to Remove last inscription
+                                </button>
+                                {numElementsInscription === 0 ? (
+                                    <div>no incriptions</div>
+                                ) : (
+                                    ''
+                                )}
                                 {[...Array(numElementsInscription)].map(
                                     (_, index) => (
                                         <>
-                                            inscription {index}
+                                            <div className="mt-5">
+                                                inscription {index}
+                                            </div>
                                             <AutomaticForm
                                                 key={index}
                                                 fields={InscriptionForm}
@@ -3062,15 +3605,81 @@ function SchadeRapportEditor() {
                                     ),
                                 )}
                             </div>
-                            collectionmark
+                            <p className="text-xl font-bold mt-6">
+                                collectionmark
+                            </p>
                             <div>
-                                <button onClick={handleClickCollectionMarks}>
+                                <button
+                                    onClick={handleClickCollectionMarks}
+                                    className="cursor-pointer bg-greenCustom px-2 rounded-2xl mt-2 items-center mr-5 hover:bg-blackCustom text-white"
+                                >
                                     Click to Add collection mark
                                 </button>
+                                <button
+                                    onClick={handleClickDeleteCollectionMarks}
+                                    className="cursor-pointer bg-darkBrown px-2 rounded-2xl mt-2 items-center hover:bg-blackCustom text-white"
+                                >
+                                    Click to Remove last collection mark
+                                </button>
+                                {numElementsCollectionMarks === 0 ? (
+                                    <>
+                                        <div>no collectionmarks</div>
+                                        <input
+                                            type="radio"
+                                            name="accessibility"
+                                            id="accessibility"
+                                            value="None"
+                                            onClick={(event) => {
+                                                const { value } = event.target
+                                                setRegistratie(
+                                                    (prevRegistratie) => ({
+                                                        ...prevRegistratie,
+                                                        identification: {
+                                                            ...prevRegistratie.identification,
+                                                            collectionMarkAccessible:
+                                                                value,
+                                                        },
+                                                    }),
+                                                )
+                                            }}
+                                        />
+                                        <label
+                                            for="accessibility"
+                                            className="mr-5"
+                                        >
+                                            None
+                                        </label>
+
+                                        <input
+                                            type="radio"
+                                            name="accessibility"
+                                            id="not-accessible"
+                                            value="Not accessible"
+                                            onClick={(event) => {
+                                                const { value } = event.target
+                                                setRegistratie(
+                                                    (prevRegistratie) => ({
+                                                        ...prevRegistratie,
+                                                        identification: {
+                                                            ...prevRegistratie.identification,
+                                                            collectionMarkAccessible:
+                                                                value,
+                                                        },
+                                                    }),
+                                                )
+                                            }}
+                                        />
+                                        <label for="not-accessible">
+                                            Not accessible
+                                        </label>
+                                    </>
+                                ) : (
+                                    ''
+                                )}
                                 {[...Array(numElementsCollectionMarks)].map(
                                     (_, index) => (
                                         <>
-                                            inscription {index}
+                                            <div>inscription {index}</div>
                                             <AutomaticForm
                                                 key={index}
                                                 fields={CollectionMarksForm}
@@ -3247,9 +3856,9 @@ function SchadeRapportEditor() {
                                 Framing
                             </div>
                             <div
-                                onClick={() => setPage(8)}
+                                onClick={() => setPage(9)}
                                 className={`underline cursor-pointer mt-2 ${
-                                    page === 8
+                                    page === 9
                                         ? 'font-bold opacity-100'
                                         : 'opacity-50'
                                 }`}

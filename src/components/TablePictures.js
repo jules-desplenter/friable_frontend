@@ -1,18 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { useTable, useSortBy, useGlobalFilter } from 'react-table'
 import { useNavigate } from 'react-router-dom'
-const TableBlob = ({ data }, props) => {
+import useDeletePicture from '../hooks/useDeletePicture'
+const TablePictures = ({ data, id }, props) => {
     const navigate = useNavigate()
     const [filterValue, setFilterValue] = useState('')
     const [names, setNames] = useState([])
-
-    const handleClick = (value) => {
-        setNames((prevnames) => [...prevnames, value])
-    }
-
-    const handleClickRemove = (value) => {
-        setNames((prevNames) => prevNames.filter((name) => name !== value))
-    }
+    const deletePicture = useDeletePicture()
 
     useEffect(() => {
         // Remove duplicates from the cool array
@@ -29,48 +23,66 @@ const TableBlob = ({ data }, props) => {
         }
     }, [names])
 
+    const handleDelete = (value) => {
+        deletePicture(id, value)
+    }
+
     const columns = useMemo(
         () => [
             {
                 Header: 'Name',
-                accessor: 'name',
+                accessor: 'id',
+                Cell: ({ value }) => {
+                    return (
+                        <button
+                            className="cursor-pointer bg-darkBrown px-2 rounded-2xl mt-2 items-center hover:bg-blackCustom text-white"
+                            onClick={() => {
+                                let split = value.split('/')
+                                split = split[split.length - 1].replace('p', '')
+                                handleDelete(split)
+                            }}
+                        >
+                            Delete
+                        </button>
+                    )
+                },
             },
             {
                 Header: 'Painting',
-                accessor: 'uri',
+                accessor: 'items[0].items[0].body.id',
                 Cell: ({ value }) => {
                     return <img alt="painting" src={value} className="h-10" />
                 },
             },
-            {
-                Header: 'Make damage report with just one picture (you can add pictures later)',
-                accessor: 'name2',
-                Cell: ({ value }) => {
-                    return (
-                        <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center text-white hover:bg-blackCustom">
-                            <a href={'/nieuwschade/' + value}>
-                                Make damage report
-                            </a>
-                        </div>
-                    )
-                },
-            },
-            {
-                Header: 'Make damage report with multiple pictures preselected',
-                accessor: 'name3',
-                Cell: ({ value }) => {
-                    return (
-                        <>
-                            <div
-                                className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center text-white hover:bg-blackCustom"
-                                onClick={() => handleClick(value)}
-                            >
-                                Add/Remove
-                            </div>
-                        </>
-                    )
-                },
-            },
+            // {
+            //     Header: 'Make damage report',
+            //     accessor: 'name2',
+            //     Cell: ({ value }) => {
+            //         return (
+            //             <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center text-white hover:bg-blackCustom">
+            //                 <a href={'/nieuwschade/' + value}>
+            //                     Make damage report
+            //                 </a>
+            //             </div>
+            //         )
+            //     },
+            // },
+            // {
+            //     Header: 'Make damage report',
+            //     accessor: 'name3',
+            //     Cell: ({ value }) => {
+            //         return (
+            //             <>
+            //                 <div
+            //                     className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center text-white hover:bg-blackCustom"
+            //                     onClick={() => handleClick(value)}
+            //                 >
+            //                     Add/Remove
+            //                 </div>
+            //             </>
+            //         )
+            //     },
+            // },
         ],
         [],
     )
@@ -191,4 +203,4 @@ const TableBlob = ({ data }, props) => {
     )
 }
 
-export default TableBlob
+export default TablePictures

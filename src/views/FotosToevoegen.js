@@ -1,10 +1,11 @@
 import '../App.css'
 import React from 'react'
-import useGetBlobList from '../hooks/UseGetBlobList'
-import TableBlob from '../components/TableBlob'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import useGetManifest from '../hooks/useGetManifest'
+import TablePictures from '../components/TablePictures'
 import Modal from 'react-modal'
-import FileUpload from '../components/FileUpload'
-import { useState } from 'react'
+import FileUploadManifest from '../components/FileUploadManifest'
 
 const customStyles = {
     content: {
@@ -17,8 +18,14 @@ const customStyles = {
     },
 }
 
-function BlobList() {
+function FotosToevoegen() {
     const [modalIsOpen, setIsOpen] = useState(false)
+
+    const { objectid } = useParams()
+    const { element, refresh } = useGetManifest(objectid)
+    useEffect(() => {
+        console.log(element?.items)
+    }, [element])
 
     function openModal() {
         setIsOpen(true)
@@ -33,7 +40,6 @@ function BlobList() {
         setIsOpen(false)
     }
 
-    const { post, refresh } = useGetBlobList()
     return (
         <>
             <Modal
@@ -43,6 +49,9 @@ function BlobList() {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
+                <h2>
+                    Add your picture from your computer to the damage report
+                </h2>
                 <button
                     onClick={closeModal}
                     className="bg-greenCustom rounded-2xl w-16 m-6 cursor-pointer text-white hover:bg-blackCustom"
@@ -51,18 +60,18 @@ function BlobList() {
                 </button>
                 <div>Add your painting</div>
                 <div>
-                    <FileUpload
+                    <FileUploadManifest
                         setIsOpen={setIsOpen}
                         refresh={refresh}
-                    ></FileUpload>
+                        id={objectid}
+                    ></FileUploadManifest>
                 </div>
             </Modal>
-            <div className="w-full flex justify-center pt-16">
-                <div className="w-1/2">
-                    {post ? <TableBlob data={post}></TableBlob> : null}
-                </div>
-            </div>
-
+            {element ? (
+                <TablePictures data={element.items} id={objectid} />
+            ) : (
+                <div>loading</div>
+            )}
             <div
                 onClick={openModal}
                 className="bg-greenCustom rounded-2xl fixed bottom-0 right-0 m-6 cursor-pointer text-white hover:bg-blackCustom"
@@ -73,4 +82,4 @@ function BlobList() {
     )
 }
 
-export default BlobList
+export default FotosToevoegen

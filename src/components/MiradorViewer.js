@@ -7,7 +7,9 @@ import AspNetAdapter from './aspnetAdapter'
 function MiradorViewer(props) {
     const myElement = useRef(null)
     const [manifestUrl, setManifestUrl] = useState(
-        'https://localhost:7148/api/Manifest/' + props.id + '/manifest.json',
+        'https://friablemongo20230424170902.azurewebsites.net/api/Manifest/' +
+            props.id +
+            '/manifest.json',
     )
 
     const containerStyle = {
@@ -16,7 +18,8 @@ function MiradorViewer(props) {
         position: 'fixed',
         bottom: '0px',
         right: '0px',
-        display: window.innerWidth <= 768 ? 'none' : 'block',
+        // display: window.innerWidth <= 768 ? 'none' : 'block',
+        display: 'block',
     }
 
     useEffect(() => {
@@ -35,7 +38,7 @@ function MiradorViewer(props) {
                 adapter: (canvasId) =>
                     new AspNetAdapter(
                         canvasId,
-                        'https://localhost:7148/api/annotation',
+                        'https://friablemongo20230424170902.azurewebsites.net/api/annotation',
                         setManifestUrl,
                     ),
             },

@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom'
 
 function NieuwSchaderapport() {
     const { url } = useParams()
-    useEffect(() => console.log(url), [url])
     const { height, width } = useGetHeightAndWidth(url)
     const postmanifest = useAddManifest()
     const [response, setResponse] = useState(false)
@@ -18,9 +17,13 @@ function NieuwSchaderapport() {
 
     const handleSubmit = (event, formData) => {
         event.preventDefault()
+        console.log(formData['objectNumber'])
         formData['height'] = height
         formData['width'] = width
-        formData['imagelink'] = 'http://localhost:8182/iiif/2/' + url
+        formData['label'] = formData['objectNumber']
+        formData['imagelink'] =
+            'https://cantaloupe.greenbush-39a95729.francecentral.azurecontainerapps.io/iiif/2/' +
+            url
         postmanifest(formData, setResponse)
         setLoading(true)
         setTimeout(() => {
@@ -29,14 +32,10 @@ function NieuwSchaderapport() {
     }
 
     const fields = [
-        { name: 'label', label: 'label', type: 'text' },
-        { name: 'date', label: 'date', type: 'text' },
-        { name: 'classification', label: 'classificatie', type: 'text' },
-        { name: 'objectNumber', label: 'objectnummmer', type: 'text' },
+        { name: 'objectNumber', label: 'Inventory number', type: 'text' },
+        { name: 'description', label: 'description', type: 'text' },
         { name: 'artist', label: 'artist', type: 'text' },
-        { name: 'medium', label: 'medium', type: 'text' },
-        { name: 'techniek', label: 'techniek', type: 'text' },
-        { name: 'provenance', label: 'provenance', type: 'textBox' },
+        { name: 'classification', label: 'classificatie', type: 'text' },
     ]
 
     return (
@@ -49,7 +48,7 @@ function NieuwSchaderapport() {
                         <img
                             className="h-96"
                             src={
-                                'http://localhost:8182/iiif/2/' +
+                                'https://cantaloupe.greenbush-39a95729.francecentral.azurecontainerapps.io/iiif/2/' +
                                 url +
                                 '/full/max/0/default.jpg'
                             }

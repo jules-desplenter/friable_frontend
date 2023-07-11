@@ -1,22 +1,22 @@
 import axios from 'axios'
 
-const useAddRegistration = () => {
-    const postRegistration = (postData, setResponse) => {
+const useDeletePicture = () => {
+    const deletePicture = (id, index) => {
         axios
-            .post('Registration', postData, {
+            .delete(`Manifest/${id}/${index}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             })
             .then((response) => {
-                setResponse(response.status)
+                console.log(response.status)
             })
             .catch((error) => {
                 console.log(error)
             })
     }
 
-    return postRegistration
+    return deletePicture
 }
 
-export default useAddRegistration
+export default useDeletePicture

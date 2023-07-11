@@ -5,7 +5,10 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://localhost:7148/api/'
+// axios.defaults.baseURL =
+//     // 'https://friablemongo20230424170902.azurewebsites.net/api/'
+
+axios.defaults.baseURL = 'http://localhost:7148/api/'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 // const root = ReactDOM.createRoot(document.getElementById('root'))

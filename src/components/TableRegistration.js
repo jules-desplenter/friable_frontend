@@ -11,21 +11,45 @@ const TableRegistration = ({ data }) => {
                 accessor: 'name',
             },
             {
-                Header: 'Function',
-                accessor: 'function',
-            },
-            {
                 Header: 'Reason',
                 accessor: 'reason',
             },
             {
-                Header: 'Schaderapport',
+                Header: 'Artist',
+                accessor: 'identification.artist.surName',
+            },
+            {
+                Header: 'Title',
+                accessor: 'identification.titleDutch',
+            },
+            {
+                Header: 'Inventory number',
+                accessor: 'id2',
+            },
+            {
+                Header: 'Damage report',
                 accessor: 'id',
                 Cell: ({ value }) => {
                     return (
-                        <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center hover:bg-blackCustom text-white">
-                            <a href={'/schaderapport/' + value}>aanpassen</a>
-                        </div>
+                        <>
+                            <div className="flex flex-col w-40">
+                                <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center w-full justify-center mb-2 hover:bg-blackCustom text-white">
+                                    <a href={'/schaderapport/' + value}>
+                                        edit report
+                                    </a>
+                                </div>
+                                <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center justify-center  w-full hover:bg-blackCustom text-white">
+                                    <a href={'/pdfviewer/' + value}>
+                                        render pdf
+                                    </a>
+                                </div>
+                                <div className="bg-greenCustom px-2 pt-1 rounded-2xl h-8 flex align-center justify-center mt-2 w-full hover:bg-blackCustom text-white">
+                                    <a href={'/fotosToevoegen/' + value}>
+                                        edit pictures
+                                    </a>
+                                </div>
+                            </div>
+                        </>
                     )
                 },
             },
